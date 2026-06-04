@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Qi Snacks Biomédicos · Alimentos con propósito</title>
+<link rel="icon" href="WhatsApp%20Image%202026-05-12%20at%2016.03.56.jpeg" />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:ital,wght@0,700;0,800;1,700;1,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --qi-green-deep: #1f4d2e;
+    --qi-green: #3aa55b;
+    --qi-green-soft: #e7f3df;
+    --qi-lime: #b9d937;
+    --qi-orange: #f37027;
+    --qi-orange-soft: #ffe7d6;
+    --qi-yellow: #fbbe2e;
+    --qi-blue: #3aa9d8;
+    --qi-purple: #a070d6;
+    --qi-pink: #e85a6a;
+    --qi-teal: #2bbfa6;
+    --qi-bg: #ffffff;
+    --qi-bg-2: #f6faf3;
+    --qi-text: #1a2e1c;
+    --qi-muted: #6b7e6d;
+    --qi-line: #e3ecdb;
+    --shadow-sm: 0 4px 14px rgba(31, 77, 46, 0.08);
+    --shadow: 0 10px 30px rgba(31, 77, 46, 0.10);
+    --shadow-lg: 0 24px 60px rgba(31, 77, 46, 0.16);
+    --radius: 24px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    color: var(--qi-text);
+    background: var(--qi-bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; }
+  img { display: block; }
+
+  /* NAV */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--qi-line);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+  .brand-text { line-height: 1; }
+  .brand-name {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 800;
+    font-size: 24px; color: var(--qi-green-deep);
+  }
+  .brand-tag {
+    font-size: 11px; color: var(--qi-orange); font-weight: 700; letter-spacing: 1.4px;
+    text-transform: uppercase; margin-top: 4px;
+  }
+  .cart-btn {
+    position: relative;
+    background: var(--qi-green-deep); color: white;
+    padding: 11px 18px 11px 16px; border-radius: 999px;
+    font-weight: 700; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: transform .15s ease, background .2s;
+  }
+  .cart-btn:hover { background: #163b22; transform: translateY(-1px); }
+  .cart-btn .count {
+    background: var(--qi-orange); color: white;
+    border-radius: 999px; padding: 2px 8px; font-size: 12px; font-weight: 800;
+    min-width: 22px; text-align: center;
+  }
+
+  /* HERO */
+  .hero {
+    max-width: 1200px; margin: 0 auto; padding: 50px 24px 20px;
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: 50px; align-items: center;
+    position: relative;
+  }
+  .eyebrow-mini {
+    text-transform: uppercase; letter-spacing: 3px; font-size: 12px;
+    color: var(--qi-green-deep); font-weight: 700; margin-bottom: 14px;
+  }
+  .eyebrow-mini::before { content: "🌿  "; }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 800;
+    font-size: clamp(46px, 7vw, 86px); line-height: 0.98; margin: 0 0 14px;
+    color: var(--qi-green-deep); letter-spacing: -1.5px;
+  }
+  .hero h1 .accent {
+    font-style: italic; color: var(--qi-orange); display: block;
+  }
+  .hero .script {
+    font-family: 'Caveat', cursive; font-weight: 700;
+    font-size: 30px; color: var(--qi-green-deep); margin-bottom: 8px;
+  }
+  .hero .underline-leaf {
+    height: 10px; width: 180px;
+    background: linear-gradient(90deg, var(--qi-orange) 0%, var(--qi-orange) 70%, transparent 70%);
+    border-radius: 2px; position: relative; margin-bottom: 24px;
+  }
+  .hero .underline-leaf::after {
+    content: "🌱"; position: absolute; right: -8px; top: -12px; font-size: 18px;
+  }
+  .hero p.lead {
+    font-size: 17px; color: var(--qi-muted); max-width: 480px; margin: 0 0 26px;
+  }
+  .hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 24px; border-radius: 999px; font-weight: 700; font-size: 15px;
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .btn-primary { background: var(--qi-orange); color: white; box-shadow: var(--shadow-sm); }
+  .btn-primary:hover { background: #db5a17; transform: translateY(-2px); box-shadow: var(--shadow); }
+  .btn-ghost { background: white; border: 2px solid var(--qi-green-deep); color: var(--qi-green-deep); }
+  .btn-ghost:hover { background: var(--qi-green-deep); color: white; }
+
+  .hero-visual {
+    position: relative; aspect-ratio: 1/1; max-width: 480px; margin-left: auto;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-visual::before {
+    content: ''; position: absolute; inset: -4%;
+    background: radial-gradient(circle, var(--qi-green-soft) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 7s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.06); opacity: 1; }
+  }
+  .hero-visual .photo-frame {
+    position: relative; z-index: 1;
+    width: 92%; height: 92%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: white;
+    box-shadow:
+      0 0 0 10px white,
+      0 0 0 13px var(--qi-lime),
+      0 24px 50px rgba(31, 77, 46, 0.22);
+  }
+  .hero-visual .photo-frame img {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.05);
+    transition: transform .6s ease;
+  }
+  .hero-visual:hover .photo-frame img { transform: scale(1.12); }
+  .hero-visual .logo-stamp {
+    position: absolute; bottom: 6%; right: 4%; z-index: 3;
+    width: 26%; height: 26%; border-radius: 50%;
+    background: white; padding: 4px;
+    box-shadow: 0 10px 24px rgba(31, 77, 46, 0.22);
+  }
+  .hero-visual .logo-stamp img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  }
+  .hero-visual .float {
+    position: absolute; font-size: 32px; z-index: 2;
+    animation: float 5s ease-in-out infinite;
+  }
+  .hero-visual .float-1 { top: 8%; left: 6%; animation-delay: 0s; }
+  .hero-visual .float-2 { top: 12%; right: 8%; animation-delay: 1s; font-size: 28px; }
+  .hero-visual .float-3 { bottom: 12%; left: 4%; animation-delay: 2s; font-size: 36px; }
+  .hero-visual .float-4 { bottom: 8%; right: 6%; animation-delay: 1.5s; font-size: 26px; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  /* SALUDABLES PILL */
+  .saludables-bar {
+    text-align: center; margin: 30px auto 0;
+  }
+  .saludables-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(90deg, var(--qi-green) 0%, var(--qi-lime) 100%);
+    color: white; padding: 10px 24px; border-radius: 999px;
+    font-weight: 800; font-size: 15px; letter-spacing: 0.3px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* BADGES ICONOS */
+  .features {
+    max-width: 1100px; margin: 30px auto 20px; padding: 0 24px;
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; text-align: center;
+  }
+  .feat .icon {
+    width: 88px; height: 88px;
+    margin: 0 auto 10px;
+    transition: transform .25s ease;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feat:hover .icon { transform: translateY(-4px) scale(1.05); }
+  .feat .icon img { width: 100%; height: 100%; object-fit: contain; }
+  .feat .label {
+    font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--qi-green-deep);
+  }
+  .feat .label small {
+    display: block; font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
+  }
+  .feat .bar {
+    width: 36px; height: 3px; margin: 4px auto 0; border-radius: 2px;
+  }
+  .feat-1 .bar { background: var(--qi-yellow); }
+  .feat-2 .bar { background: var(--qi-blue); }
+  .feat-3 .bar { background: var(--qi-green); }
+  .feat-4 .bar { background: var(--qi-orange); }
+  .feat-5 .bar { background: var(--qi-purple); }
+  .feat-6 .bar { background: var(--qi-pink); }
+  .feat-7 .bar { background: var(--qi-teal); }
+
+  /* SECTION TITLE */
+  .section-title {
+    text-align: center; max-width: 900px; margin: 70px auto 30px; padding: 0 24px;
+  }
+  .section-title .eyebrow {
+    text-transform: uppercase; letter-spacing: 4px; font-size: 12px;
+    color: var(--qi-green-deep); font-weight: 700;
+  }
+  .section-title .eyebrow::before { content: "🌿  "; }
+  .section-title .eyebrow::after { content: "  🌿"; }
+  .section-title h2 {
+    font-family: 'Fraunces', serif; font-weight: 800;
+    font-size: clamp(32px, 4.5vw, 50px); margin: 12px 0 0;
+    color: var(--qi-green-deep); line-height: 1.1;
+  }
+  .section-title h2 em {
+    font-style: italic; color: var(--qi-orange);
+    border-bottom: 4px solid var(--qi-orange); padding-bottom: 2px;
+  }
+
+  /* PRODUCTS */
+  .products {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px 60px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;
+  }
+  .card {
+    background: white; border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow-sm); position: relative;
+    display: flex; flex-direction: column;
+    transition: transform .25s ease, box-shadow .25s ease;
+    border: 1px solid var(--qi-line);
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+
+  /* leaf-shaped number badge */
+  .card .num {
+    position: absolute; top: 14px; left: 14px; z-index: 3;
+    width: 46px; height: 46px;
+    background: var(--qi-green); color: white;
+    font-family: 'Fraunces', serif; font-weight: 800; font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50% 50% 50% 8px;
+    transform: rotate(-8deg);
+    box-shadow: 0 6px 14px rgba(58, 165, 91, 0.35);
+  }
+
+  .gallery {
+    position: relative; aspect-ratio: 1/1;
+    background: linear-gradient(135deg, #fafef5 0%, #f0f7ea 100%);
+    overflow: hidden;
+  }
+  .gallery img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; padding: 18px;
+    opacity: 0; transition: opacity .35s ease;
+  }
+  .gallery img.active { opacity: 1; }
+  .gallery .thumbs {
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px; z-index: 2;
+  }
+  .gallery .thumbs button {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(31, 77, 46, 0.25); border: none;
+    padding: 0; transition: all .2s;
+  }
+  .gallery .thumbs button.active { background: var(--qi-orange); width: 22px; border-radius: 4px; }
+  .gallery .nav-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+    background: white; color: var(--qi-green-deep);
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800;
+    opacity: 0; transition: opacity .2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .card:hover .nav-arrow { opacity: 1; }
+  .gallery .nav-arrow.prev { left: 12px; }
+  .gallery .nav-arrow.next { right: 12px; }
+
+  .card-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+  .card-title {
+    font-family: 'Fraunces', serif; font-weight: 700;
+    font-size: 22px; margin: 0 0 10px; color: var(--qi-green-deep); line-height: 1.15;
+  }
+  .card-desc {
+    color: var(--qi-muted); font-size: 14.5px; margin: 0 0 14px; flex: 1;
+  }
+  .ingredients {
+    background: var(--qi-green-soft); border-radius: 14px; padding: 12px 14px;
+    font-size: 12.5px; color: var(--qi-green-deep); margin-bottom: 18px;
+    line-height: 1.45;
+  }
+  .ingredients b { color: var(--qi-green-deep); }
+  .size-toggle {
+    display: flex; background: var(--qi-green-soft); border-radius: 999px;
+    padding: 4px; margin-bottom: 14px; position: relative;
+  }
+  .size-toggle button {
+    flex: 1; padding: 9px 12px; border-radius: 999px;
+    font-size: 12.5px; font-weight: 800; letter-spacing: 0.3px;
+    color: var(--qi-green-deep); background: transparent;
+    transition: all .2s ease; cursor: pointer;
+  }
+  .size-toggle button.active {
+    background: white; color: var(--qi-orange);
+    box-shadow: 0 2px 8px rgba(31, 77, 46, 0.12);
+  }
+  .size-toggle button:hover:not(.active) { color: var(--qi-orange); }
+  .card-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .price-wrap { display: flex; align-items: center; gap: 8px; }
+  .price {
+    font-family: 'Fraunces', serif; font-weight: 800;
+    font-size: 28px; color: var(--qi-orange); line-height: 1;
+  }
+  .weight-chip {
+    background: var(--qi-green-soft); color: var(--qi-green-deep);
+    padding: 4px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+  }
+  .add-btn {
+    background: var(--qi-green-deep); color: white;
+    padding: 11px 18px; border-radius: 999px; font-weight: 800; font-size: 13.5px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all .2s ease;
+  }
+  .add-btn:hover { background: var(--qi-green); transform: translateY(-1px); }
+  .add-btn.added { background: var(--qi-orange); }
+
+  /* COMBOS */
+  .combos {
+    max-width: 1200px; margin: 0 auto 80px; padding: 0 24px;
+  }
+  .combos-inner {
+    background: linear-gradient(135deg, var(--qi-green-deep) 0%, #2a6b3f 100%);
+    color: white; border-radius: var(--radius);
+    padding: 40px 44px; display: flex; align-items: center; justify-content: space-between;
+    gap: 28px; flex-wrap: wrap;
+    box-shadow: var(--shadow-lg);
+    position: relative; overflow: hidden;
+  }
+  .combos-inner::before {
+    content: "🎁"; position: absolute; right: -20px; top: -20px;
+    font-size: 200px; opacity: 0.06;
+  }
+  .combos h3 {
+    font-family: 'Fraunces', serif;
+    margin: 0 0 8px; font-size: 30px; font-weight: 800; line-height: 1.1;
+  }
+  .combos h3 em { font-style: italic; color: var(--qi-orange); }
+  .combos p { margin: 0; opacity: 0.92; max-width: 540px; }
+  .combos .btn-primary { background: var(--qi-orange); }
+
+  /* FOOTER */
+  footer {
+    background: var(--qi-green-deep); color: white;
+    padding: 50px 24px 30px; text-align: center;
+  }
+  footer .foot-inner { max-width: 1200px; margin: 0 auto; }
+  footer .tagline {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 30px; color: var(--qi-orange); margin-bottom: 18px;
+  }
+  footer .tagline span { color: white; }
+  footer .socials { margin: 18px 0; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+  footer .socials a {
+    background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 999px;
+    font-weight: 700; font-size: 14px; transition: all .2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  footer .socials a:hover { background: var(--qi-orange); transform: translateY(-2px); }
+  footer small { opacity: 0.65; font-size: 12px; }
+
+  /* CART DRAWER */
+  .cart-overlay {
+    position: fixed; inset: 0; background: rgba(31, 77, 46, 0.4);
+    opacity: 0; pointer-events: none; transition: opacity .3s ease;
+    z-index: 100;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: auto; }
+  .cart-drawer {
+    position: fixed; top: 0; right: 0; height: 100vh; width: min(440px, 100%);
+    background: white; z-index: 101;
+    transform: translateX(100%); transition: transform .35s ease;
+    display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0,0,0,0.2);
+  }
+  .cart-drawer.open { transform: translateX(0); }
+  .cart-head {
+    padding: 22px 24px; border-bottom: 1px solid var(--qi-line);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--qi-green-deep); color: white;
+  }
+  .cart-head h3 {
+    font-family: 'Fraunces', serif; margin: 0; font-size: 24px; font-weight: 800;
+  }
+  .cart-close {
+    background: rgba(255,255,255,0.15); color: white;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 18px; font-weight: 700; transition: background .2s;
+  }
+  .cart-close:hover { background: rgba(255,255,255,0.25); }
+  .cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+  .empty { text-align: center; padding: 50px 20px; color: var(--qi-muted); }
+  .empty .em { font-size: 60px; margin-bottom: 12px; }
+  .empty p { margin: 0; }
+  .cart-item {
+    display: grid; grid-template-columns: 70px 1fr auto; gap: 14px; align-items: center;
+    padding: 14px 0; border-bottom: 1px dashed var(--qi-line);
+  }
+  .cart-item img {
+    width: 70px; height: 70px; border-radius: 14px; object-fit: contain;
+    background: var(--qi-bg-2); padding: 6px;
+  }
+  .cart-item .name { font-weight: 700; font-size: 14px; margin-bottom: 2px; color: var(--qi-green-deep); }
+  .cart-item .meta { font-size: 12px; color: var(--qi-muted); }
+  .qty {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 8px;
+    background: var(--qi-bg-2); border-radius: 999px; padding: 3px;
+  }
+  .qty button {
+    width: 24px; height: 24px; border-radius: 50%; background: white;
+    color: var(--qi-green-deep); font-weight: 800; box-shadow: var(--shadow-sm);
+    font-size: 14px;
+  }
+  .qty button:hover { background: var(--qi-orange); color: white; }
+  .qty span { min-width: 20px; text-align: center; font-weight: 700; font-size: 13px; }
+  .item-price {
+    font-family: 'Fraunces', serif; font-weight: 800;
+    color: var(--qi-orange); white-space: nowrap; font-size: 16px;
+  }
+  .remove {
+    background: transparent; color: var(--qi-pink); font-size: 12px; margin-top: 4px;
+    padding: 0; font-weight: 700;
+  }
+  .cart-foot {
+    padding: 22px 24px; border-top: 1px solid var(--qi-line);
+    background: white;
+  }
+  .total {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .total .label { font-size: 16px; font-weight: 700; color: var(--qi-text); }
+  .total .amount {
+    font-family: 'Fraunces', serif; font-weight: 800;
+    color: var(--qi-orange); font-size: 30px;
+  }
+  .checkout-btn {
+    width: 100%; padding: 16px; border-radius: 16px;
+    background: #25D366; color: white; font-weight: 800; font-size: 16px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    box-shadow: var(--shadow);
+    transition: background .2s, transform .15s;
+  }
+  .checkout-btn:hover:not(:disabled) { background: #1ebe5a; transform: translateY(-2px); }
+  .checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .wa-icon { width: 22px; height: 22px; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--qi-green-deep); color: white;
+    padding: 12px 22px; border-radius: 999px; font-weight: 700; font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s;
+    z-index: 200;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero { gap: 30px; }
+    .hero-visual { max-width: 400px; }
+    .features { gap: 12px; }
+    .feat .icon { width: 78px; height: 78px; }
+  }
+  @media (max-width: 800px) {
+    .nav-inner { padding: 12px 18px; }
+    .hero { grid-template-columns: 1fr; padding: 30px 20px 10px; gap: 24px; }
+    .hero-visual { margin: 0 auto; max-width: 340px; order: -1; }
+    .hero h1 { letter-spacing: -1px; }
+    .hero .underline-leaf { width: 140px; }
+    .features {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin: 24px auto 16px;
+    }
+    .section-title { margin: 50px auto 24px; }
+    .products { padding: 0 20px 40px; gap: 22px; }
+    .combos { margin-bottom: 50px; }
+    .combos-inner {
+      padding: 28px 24px; flex-direction: column; text-align: center;
+    }
+    .combos h3 { font-size: 24px; }
+    .saludables-pill { font-size: 14px; padding: 9px 18px; }
+  }
+  @media (max-width: 560px) {
+    .nav-inner { gap: 10px; }
+    .brand img { width: 46px; height: 46px; }
+    .brand-name { font-size: 20px; }
+    .brand-tag { font-size: 10px; letter-spacing: 1px; }
+    .cart-btn { padding: 9px 14px; font-size: 13px; }
+    .hero { padding: 20px 18px 8px; }
+    .hero h1 { font-size: clamp(38px, 11vw, 60px); }
+    .hero .script { font-size: 26px; }
+    .hero p.lead { font-size: 15px; }
+    .hero .ctas { gap: 10px; }
+    .btn { padding: 12px 20px; font-size: 14px; }
+    .hero-visual { max-width: 280px; }
+    .features {
+      grid-template-columns: repeat(4, 1fr); gap: 12px;
+      padding: 0 18px;
+    }
+    .feat .icon { width: 66px; height: 66px; }
+    .feat .label { font-size: 10px; letter-spacing: 0.8px; }
+    .feat .label small { font-size: 10px; letter-spacing: 0.8px; }
+    .section-title { margin: 40px auto 20px; padding: 0 20px; }
+    .section-title h2 em { border-bottom-width: 3px; }
+    .products {
+      grid-template-columns: 1fr;
+      padding: 0 18px 40px; gap: 20px;
+    }
+    .card .num { width: 40px; height: 40px; font-size: 15px; top: 12px; left: 12px; }
+    .card-body { padding: 18px 18px 20px; }
+    .card-title { font-size: 19px; }
+    .price { font-size: 24px; }
+    .ingredients { font-size: 12px; padding: 10px 12px; }
+    .combos-inner { padding: 24px 20px; }
+    .combos h3 { font-size: 22px; }
+    .combos p { font-size: 14px; }
+    footer { padding: 36px 20px 24px; }
+    footer .tagline { font-size: 24px; }
+    footer .socials a { padding: 10px 16px; font-size: 13px; }
+  }
+  @media (max-width: 400px) {
+    .features { grid-template-columns: repeat(3, 1fr); }
+    .brand-tag { display: none; }
+    .hero h1 { font-size: clamp(34px, 12vw, 50px); }
+    .nav-actions .cart-btn { padding: 8px 12px; }
+  }
+  /* ABOUT MARINA */
+  .about {
+    max-width: 1200px; margin: 20px auto 80px; padding: 0 24px;
+  }
+  .about-inner {
+    background: var(--qi-bg-2);
+    border: 1px solid var(--qi-line);
+    border-radius: var(--radius);
+    padding: 50px 50px;
+    display: grid; grid-template-columns: 320px 1fr; gap: 50px;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden;
+  }
+  .about-inner::before {
+    content: ""; position: absolute; right: -60px; bottom: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(243, 112, 39, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .about-photo {
+    position: relative;
+    width: 100%; max-width: 320px; margin: 0 auto;
+    aspect-ratio: 4 / 5;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 8px solid white;
+    outline: 2px dashed rgba(243, 112, 39, 0.4);
+    outline-offset: 4px;
+    transform: rotate(-2deg);
+    transition: transform .35s ease;
+  }
+  .about-photo:hover { transform: rotate(0); }
+  .about-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    object-position: center 25%;
+  }
+  .about-content .eyebrow {
+    text-transform: uppercase; letter-spacing: 3px; font-size: 12px;
+    color: var(--qi-orange); font-weight: 700; margin-bottom: 10px;
+  }
+  .about-content .eyebrow::before { content: "🌿  "; }
+  .about-content h2 {
+    font-family: 'Fraunces', serif; font-weight: 800;
+    font-size: clamp(30px, 4vw, 44px); margin: 0 0 6px;
+    color: var(--qi-green-deep); line-height: 1.05;
+  }
+  .about-content h2 em {
+    font-style: italic; color: var(--qi-orange);
+  }
+  .about-content .role {
+    font-family: 'Fraunces', serif; font-style: italic;
+    color: var(--qi-green); font-size: 17px; font-weight: 700;
+    margin: 0 0 18px;
+  }
+  .about-content p.bio {
+    margin: 0 0 14px; color: var(--qi-text); font-size: 15.5px;
+    max-width: 640px;
+  }
+  .about-content p.mission {
+    background: white; border-left: 4px solid var(--qi-orange);
+    padding: 16px 20px; border-radius: 0 14px 14px 0;
+    font-style: italic; color: var(--qi-green-deep);
+    font-size: 15px; margin: 0 0 22px;
+    box-shadow: var(--shadow-sm);
+  }
+  .about-content p.mission strong {
+    font-style: normal; color: var(--qi-orange);
+    display: block; font-size: 13px; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .certs {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;
+  }
+  .certs .cert-label {
+    width: 100%; font-size: 12px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--qi-muted);
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .cert-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: white; border: 1px solid var(--qi-line);
+    padding: 9px 14px; border-radius: 999px;
+    font-size: 13px; font-weight: 700; color: var(--qi-green-deep);
+    transition: all .2s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .cert-chip:hover {
+    background: var(--qi-green-deep); color: white;
+    transform: translateY(-2px);
+    border-color: var(--qi-green-deep);
+  }
+  .cert-chip svg { width: 16px; height: 16px; flex-shrink: 0; }
+  @media (max-width: 900px) {
+    .about-inner {
+      grid-template-columns: 1fr; gap: 28px; padding: 36px 28px;
+      text-align: center;
+    }
+    .about-content p.bio { margin-left: auto; margin-right: auto; }
+    .certs { justify-content: center; }
+    .about-content p.mission { text-align: left; }
+  }
+  @media (max-width: 560px) {
+    .about { margin: 10px auto 50px; padding: 0 18px; }
+    .about-inner { padding: 28px 20px; }
+    .about-photo { max-width: 240px; }
+    .about-content p.mission { padding: 14px 16px; font-size: 14px; }
+    .cert-chip { font-size: 12px; padding: 8px 12px; }
+  }
+
+  /* DOC VIEWER MODAL */
+  .doc-overlay {
+    position: fixed; inset: 0;
+    background: rgba(15, 30, 18, 0.88);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s ease;
+    display: flex; align-items: center; justify-content: center;
+    padding: 30px;
+  }
+  .doc-overlay.open { opacity: 1; pointer-events: auto; }
+  .doc-modal {
+    position: relative;
+    width: min(1100px, 100%); height: min(85vh, 900px);
+    background: white; border-radius: 18px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    transform: scale(0.96); transition: transform .25s ease;
+    overflow: hidden;
+  }
+  .doc-overlay.open .doc-modal { transform: scale(1); }
+  .doc-head {
+    background: var(--qi-green-deep); color: white;
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .doc-head h4 {
+    font-family: 'Fraunces', serif; margin: 0;
+    font-size: 18px; font-weight: 700;
+  }
+  .doc-head .notice {
+    font-size: 11px; opacity: 0.75; margin-top: 2px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .doc-close {
+    background: rgba(255,255,255,0.15); color: white;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 18px; font-weight: 700; transition: background .2s;
+    flex-shrink: 0;
+  }
+  .doc-close:hover { background: var(--qi-orange); }
+  .doc-body {
+    flex: 1; position: relative; overflow: hidden;
+    background: #f4f4f4;
+    user-select: none; -webkit-user-select: none;
+  }
+  .doc-body iframe, .doc-body embed, .doc-body img {
+    width: 100%; height: 100%; border: none;
+    display: block;
+  }
+  .doc-body img {
+    object-fit: contain; background: #f4f4f4;
+    -webkit-user-drag: none; pointer-events: none;
+  }
+  .doc-watermark {
+    position: absolute; inset: 0; pointer-events: none;
+    display: flex; flex-wrap: wrap; align-content: space-around;
+    justify-content: space-around;
+    overflow: hidden;
+  }
+  .doc-watermark span {
+    font-family: 'Fraunces', serif; font-style: italic;
+    color: rgba(31, 77, 46, 0.07);
+    font-size: 38px; font-weight: 800;
+    transform: rotate(-25deg);
+    white-space: nowrap; padding: 30px 50px;
+  }
+  @media (max-width: 600px) {
+    .doc-overlay { padding: 12px; }
+    .doc-modal { height: 88vh; }
+    .doc-head h4 { font-size: 15px; }
+    .doc-watermark span { font-size: 24px; padding: 20px 30px; }
+  }
+
+  /* Cart drawer en mobile */
+  @media (max-width: 480px) {
+    .cart-drawer { width: 100%; }
+    .cart-head h3 { font-size: 20px; }
+    .cart-items { padding: 12px 18px; }
+    .cart-foot { padding: 18px 20px; }
+    .cart-item { grid-template-columns: 56px 1fr auto; gap: 10px; }
+    .cart-item img { width: 56px; height: 56px; }
+    .total .amount { font-size: 26px; }
+    .checkout-btn { padding: 14px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <img src="WhatsApp%20Image%202026-05-12%20at%2016.03.56.jpeg" alt="Qi - Alimentos con propósito" />
+      <div class="brand-text">
+        <div class="brand-name">qi snacks</div>
+        <div class="brand-tag">Alimentos con propósito</div>
+      </div>
+    </div>
+    <button class="cart-btn" id="openCart" aria-label="Abrir carrito">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+      Carrito <span class="count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow-mini">Snacks biomédicos · Artesanales</div>
+    <h1>qi snacks<br/><span class="accent">biomédicos.</span></h1>
+    <div class="script">Alimentos con propósito</div>
+    <div class="underline-leaf"></div>
+    <p class="lead">Snacks artesanales saludables, hechos a mano con ingredientes reales. Ricos, crocantes y nutritivos — pensados para cuidarte sin resignar sabor.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="#productos">
+        Ver productos
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="https://wa.me/5491153796212" target="_blank" rel="noopener">
+        Consultar combos
+      </a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <span class="float float-1">🌿</span>
+    <span class="float float-2">🌱</span>
+    <span class="float float-3">🌿</span>
+    <span class="float float-4">🌱</span>
+    <div class="photo-frame">
+      <img src="Nachos/generated-image%20%281%29.png" alt="Triangulitos Qi con guacamole, jalapeños y lima" />
+    </div>
+    <div class="logo-stamp">
+      <img src="WhatsApp%20Image%202026-05-12%20at%2016.03.56.jpeg" alt="Qi logo" />
+    </div>
+  </div>
+</section>
+
+<div class="saludables-bar">
+  <div class="saludables-pill">
+    🌿 Snacks artesanales saludables 🌿
+  </div>
+</div>
+
+<section class="features">
+  <div class="feat feat-1">
+    <div class="icon"><img src="iconos/icon-1.png" alt="Sin gluten" /></div>
+    <div class="label">SIN<br/><small>GLUTEN</small></div>
+    <div class="bar"></div>
+  </div>
+  <div class="feat feat-2">
+    <div class="icon"><img src="iconos/icon-2.png" alt="Sin lácteos" /></div>
+    <div class="label">SIN<br/><small>LÁCTEOS</small></div>
+    <div class="bar"></div>
+  </div>
+  <div class="feat feat-3">
+    <div class="icon"><img src="iconos/icon-3.png" alt="Veganos" /></div>
+    <div class="label">VEGANOS</div>
+    <div class="bar"></div>
+  </div>
+  <div class="feat feat-4">
+    <div class="icon"><img src="iconos/icon-4.png" alt="Sin azúcar" /></div>
+    <div class="label">SIN<br/><small>AZÚCAR</small></div>
+    <div class="bar"></div>
+  </div>
+  <div class="feat feat-5">
+    <div class="icon"><img src="iconos/icon-5.png" alt="Sin levaduras" /></div>
+    <div class="label">SIN<br/><small>LEVADURAS</small></div>
+    <div class="bar"></div>
+  </div>
+  <div class="feat feat-6">
+    <div class="icon"><img src="iconos/icon-6.png" alt="Sin soja" /></div>
+    <div class="label">SIN<br/><small>SOJA</small></div>
+    <div class="bar"></div>
+  </div>
+  <div class="feat feat-7">
+    <div class="icon"><img src="iconos/icon-7.png" alt="Sin aditivos" /></div>
+    <div class="label">SIN<br/><small>ADITIVOS</small></div>
+    <div class="bar"></div>
+  </div>
+</section>
+
+<div class="section-title" id="productos">
+  <div class="eyebrow">Nuestros snacks</div>
+  <h2>Hechos de manera artesanal<br/>con <em>ingredientes reales</em></h2>
+</div>
+
+<section class="products" id="grid"></section>
+
+<section class="combos">
+  <div class="combos-inner">
+    <div>
+      <h3>Consultá por <em>combos &amp; promos</em></h3>
+      <p>Tenemos distintas presentaciones y paquetes familiares con descuento. Escribinos por WhatsApp y armamos el tuyo.</p>
+    </div>
+    <a class="btn btn-primary" href="https://wa.me/5491153796212" target="_blank" rel="noopener">
+      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.173.198-.297.297-.495.099-.198.05-.372-.025-.521-.074-.149-.669-1.611-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+      Hablar por WhatsApp
+    </a>
+  </div>
+</section>
+
+<section class="about" id="sobre-marina">
+  <div class="about-inner">
+    <div class="about-photo">
+      <img src="Foto%20MAry.png" alt="Marina Campana - Creadora de Qi Snacks" oncontextmenu="return false;" draggable="false" />
+    </div>
+    <div class="about-content">
+      <div class="eyebrow">Detrás de Qi</div>
+      <h2>¡Hola! Soy <em>Marina</em></h2>
+      <p class="role">Lic. en Psicopedagogía · Asesora Nutricional Natural</p>
+      <p class="bio">
+        Especializada en <strong>alimentación terapéutica Biomédica</strong>. Detrás de cada snack de Qi hay una historia, un propósito y mucho amor: el de acompañar a las familias a redescubrir el acto de alimentarse como un camino hacia la salud.
+      </p>
+      <p class="mission">
+        <strong>Mi misión</strong>
+        Brindar herramientas desde la psicoeducación alimentaria, actualizando el concepto que implica el acto de alimentarse, desde una mirada holística y funcional, para prevenir la enfermedad y buscar la salud. Ayudemos a nuestros hijos a desarrollar su máximo potencial.
+      </p>
+      <div class="certs">
+        <span class="cert-label">Formación y certificaciones</span>
+        <button type="button" class="cert-chip" data-doc="Titulo%20de%20Psicopedagog%C3%ADa.jpeg" data-type="image" data-title="Título de Licenciada en Psicopedagogía">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Lic. en Psicopedagogía
+        </button>
+        <button type="button" class="cert-chip" data-doc="certificado%20del%20curso%20Alimentacion%20terapeutica%20y%20discapacidad.pdf" data-type="pdf" data-title="Alimentación Terapéutica y Discapacidad">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/></svg>
+          Alimentación terapéutica y discapacidad
+        </button>
+        <button type="button" class="cert-chip" data-doc="titulo.pdf" data-type="pdf" data-title="Alimentación Biomédica-Biológica (Autismo, TDAH, TEL)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6m0 0 3-3m-3 3-3-3"/><path d="M3 12h18M5 12v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg>
+          Alimentación Biomédica
+        </button>
+        <button type="button" class="cert-chip" data-doc="certificado%20de%20certificacion%20sin%20gluten.pdf" data-type="pdf" data-title="Certificación de Alimentos Libres de Gluten">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Certificación Sin Gluten
+        </button>
+        <button type="button" class="cert-chip" data-doc="Manipulaci%C3%B3n%20segura%20de%20alimentos.pdf" data-type="pdf" data-title="Manipulación Segura de Alimentos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 7v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-5z"/></svg>
+          Manipulación segura de alimentos
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="tagline">Ricos <span>·</span> Crocantes <span>·</span> Nutritivos</div>
+    <div class="socials">
+      <a href="https://wa.me/5491153796212" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24z"/></svg>
+        +54 9 11 5379-6212
+      </a>
+      <a href="https://instagram.com/qi_snacks" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.5.5.7.9.9 1.4.2.5.4 1.1.4 2.3.1 1.3.1 1.6.1 4.8s0 3.5-.1 4.7c-.1 1.2-.3 1.8-.4 2.3-.2.5-.5 1-.9 1.4-.5.5-.9.7-1.4.9-.4.2-1 .3-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.5-.5-.7-.9-.9-1.4-.2-.5-.4-1.1-.4-2.3-.1-1.3-.1-1.6-.1-4.8s0-3.5.1-4.8c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.5-.5.9-.7 1.4-.9.5-.2 1.1-.4 2.2-.4 1.3-.1 1.7-.1 4.8-.1zm0 2.2c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8s-.6.8-.8 1.3c-.1.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3s.8.6 1.3.8c.4.1 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8s.6-.8.8-1.3c.1-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3s-.8-.6-1.3-.8c-.4-.1-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.7a5.9 5.9 0 110 11.8 5.9 5.9 0 010-11.8zm0 9.7a3.8 3.8 0 100-7.6 3.8 3.8 0 000 7.6zm7.5-9.9a1.4 1.4 0 11-2.8 0 1.4 1.4 0 012.8 0z"/></svg>
+        @qi_snacks
+      </a>
+    </div>
+    <small>© Qi Snacks Biomédicos · Alimentos con propósito</small>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-head">
+    <h3>Tu carrito</h3>
+    <button class="cart-close" id="closeCart" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="total">
+      <span class="label">Total</span>
+      <span class="amount" id="cartTotal">$0</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" disabled>
+      <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+      Enviar pedido por WhatsApp
+    </button>
+  </div>
+</aside>
+
+<!-- DOC VIEWER -->
+<div class="doc-overlay" id="docOverlay" oncontextmenu="return false;">
+  <div class="doc-modal" role="dialog" aria-modal="true" aria-labelledby="docTitle">
+    <div class="doc-head">
+      <div>
+        <h4 id="docTitle">Documento</h4>
+        <div class="notice">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Documento privado · solo lectura
+        </div>
+      </div>
+      <button class="doc-close" id="docClose" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="doc-body" id="docBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const PRODUCTS = [
+    {
+      id: 1, num: "01",
+      name: "Tablitas de Trigo Sarraceno y Semillas",
+      desc: "Crujientes, rústicas y muy nutritivas. Ideales para picadas o acompañar comidas.",
+      ingredients: "Harina de arroz, trigo sarraceno, harina de garbanzos, aceite de oliva, sal marina, polvo de hornear, goma xántica y semillas.",
+      sizes: { ind: { weight: "70 g", price: 2500 }, fam: { weight: "210 g", price: 7000 } },
+      images: [
+        "Talitas%20sarraceno/ChatGPT%20Image%20May%2011%2C%202026%2C%2010_16_21%20AM.png",
+        "Talitas%20sarraceno/generated-image.png",
+        "Talitas%20sarraceno/01_pinterest_wood.png"
+      ]
+    },
+    {
+      id: 2, num: "02",
+      name: "Galletas Marineras",
+      desc: "Suaves y crocantes, perfectas para untar o acompañar dips.",
+      ingredients: "Almidón de maíz, harina de arroz, almidón de mandioca, aceite de oliva, sal marina, goma xántica y polvo leudante.",
+      sizes: { ind: { weight: "70 g", price: 2000 }, fam: { weight: "210 g", price: 5500 } },
+      images: [
+        "Marineras/ChatGPT%20Image%20May%2011%2C%202026%2C%2011_58_00%20AM.png",
+        "Marineras/generated-image%20iluminada.png",
+        "Marineras/ChatGPT%20Image%20May%2011%2C%202026%2C%2011_59_39%20AM.png"
+      ]
+    },
+    {
+      id: 3, num: "03",
+      name: "Crakers de Mijo y Cebolla",
+      desc: "Livianos, crocantes y sabrosos. Ideales para dips o comer solos.",
+      ingredients: "Mijo, cebolla en polvo, pimienta negra, cúrcuma, aceite de oliva, sal marina y goma xántica.",
+      sizes: { ind: { weight: "70 g", price: 2500 }, fam: { weight: "210 g", price: 7000 } },
+      images: [
+        "cuadraditas%20yani/crakers%20mijo%20buena.jpeg",
+        "cuadraditas%20yani/ChatGPT%20Image%20May%2011%2C%202026%2C%2012_17_13%20PM.png",
+        "cuadraditas%20yani/generated-image%20iluminada.png"
+      ]
+    },
+    {
+      id: 4, num: "04",
+      name: "Palitos de Batata y Romero",
+      desc: "Tiritas crocantes con un sabor suave y aromático. Un snack distinto y natural.",
+      ingredients: "Batata, romero, aceite de oliva, sal marina y goma xántica.",
+      sizes: { ind: { weight: "50 g", price: 3000 }, fam: { weight: "150 g", price: 8000 } },
+      images: [
+        "batatitas/ChatGPT%20Image%20May%2011%2C%202026%2C%2012_24_20%20PM.png",
+        "batatitas/ChatGPT%20Image%20May%2011%2C%202026%2C%2012_20_23%20PM.png",
+        "batatitas/generated-image.png"
+      ]
+    },
+    {
+      id: 5, num: "05",
+      name: "Garbancitos Crocantes",
+      desc: "Ricos en proteína vegetal, ideales para picar algo nutritivo y saciante.",
+      ingredients: "Garbanzos, aceite de oliva, sal marina, levadura nutricional, semillas de lino y goma xántica.",
+      sizes: { ind: { weight: "50 g", price: 2000 }, fam: { weight: "150 g", price: 5500 } },
+      images: [
+        "garbanzo/ChatGPT%20Image%20May%2011%2C%202026%2C%2012_03_41%20PM.png",
+        "garbanzo/ChatGPT%20Image%20May%2011%2C%202026%2C%2012_08_14%20PM.png",
+        "garbanzo/generated-image%20iluminada.png"
+      ]
+    },
+    {
+      id: 6, num: "06",
+      name: "Triangulitos de Lentejas Turcas",
+      desc: "Sabor intenso y textura crocante. Perfectos para compartir o armar picadas completas.",
+      ingredients: "Lentejas turcas, pimentón, ajo, aceite de oliva, sal marina, polvo de hornear y goma xántica.",
+      sizes: { ind: { weight: "50 g", price: 2500 }, fam: { weight: "150 g", price: 7000 } },
+      images: [
+        "Nachos/generated-image.png",
+        "Nachos/ChatGPT%20Image%20May%2011%2C%202026%2C%2011_15_58%20AM.png",
+        "Nachos/generated-image%20%281%29.png"
+      ]
+    },
+    {
+      id: 7, num: "07",
+      name: "Papas al Orégano",
+      desc: "Clásicas, crocantes y con un toque casero irresistible.",
+      ingredients: "Papas, orégano, aceite de oliva y sal marina.",
+      sizes: { ind: { weight: "50 g", price: 2000 }, fam: { weight: "150 g", price: 5500 } },
+      images: [
+        "redonditas%20de%20papa/ChatGPT%20Image%20May%2011%2C%202026%2C%2012_00_34%20PM.png",
+        "redonditas%20de%20papa/ChatGPT%20Image%20May%2011%2C%202026%2C%2012_04_57%20PM.png",
+        "redonditas%20de%20papa/generated-image.png"
+      ]
+    },
+    {
+      id: 8, num: "08",
+      name: "Grisines a la Provenzal",
+      desc: "De garbanzo y papa, altos en proteína vegetal.",
+      ingredients: "Garbanzos, papa, provenzal seco, sal marina, aceite de oliva, polvo leudante y goma xántica.",
+      sizes: { ind: { weight: "50 g", price: 2000 }, fam: { weight: "150 g", price: 5500 } },
+      images: [
+        "Glisines%20provenzal/generated-image%20(8).png",
+        "Glisines%20provenzal/generated-image%20(10).png",
+        "Glisines%20provenzal/generated-image%20(7).png"
+      ]
+    }
+  ];
+
+  const WHATSAPP_NUMBER = "5491153796212";
+  const fmt = (n) => "$" + n.toLocaleString("es-AR");
+
+  const SIZE_LABELS = { ind: "Individual", fam: "Familiar" };
+
+  // RENDER
+  const grid = document.getElementById("grid");
+  PRODUCTS.forEach((p) => {
+    const labels = ["Bolsa", "En plato", "Inspiración"];
+    const card = document.createElement("article");
+    card.className = "card";
+    const defSize = "ind";
+    card.innerHTML = `
+      <div class="num">${p.num}</div>
+      <div class="gallery" data-index="0">
+        ${p.images.map((src, i) => `<img src="${src}" alt="${p.name} - ${labels[i]||''}" class="${i===0?'active':''}" loading="lazy" />`).join("")}
+        <button class="nav-arrow prev" aria-label="Anterior">‹</button>
+        <button class="nav-arrow next" aria-label="Siguiente">›</button>
+        <div class="thumbs">
+          ${p.images.map((_, i) => `<button class="${i===0?'active':''}" data-i="${i}" aria-label="Imagen ${i+1}"></button>`).join("")}
+        </div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${p.name}</h3>
+        <p class="card-desc">${p.desc}</p>
+        <div class="ingredients"><b>Ingredientes:</b> ${p.ingredients}</div>
+        <div class="size-toggle">
+          <button class="active" data-size="ind">Individual</button>
+          <button data-size="fam">Familiar</button>
+        </div>
+        <div class="card-foot">
+          <div class="price-wrap">
+            <div class="price">${fmt(p.sizes[defSize].price)}</div>
+            <div class="weight-chip">${p.sizes[defSize].weight}</div>
+          </div>
+          <button class="add-btn" data-id="${p.id}" data-size="${defSize}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Agregar
+          </button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+
+    const gallery = card.querySelector(".gallery");
+    const imgs = gallery.querySelectorAll("img");
+    const thumbs = gallery.querySelectorAll(".thumbs button");
+    const showAt = (i) => {
+      const idx = (i + imgs.length) % imgs.length;
+      gallery.dataset.index = idx;
+      imgs.forEach((img, k) => img.classList.toggle("active", k === idx));
+      thumbs.forEach((t, k) => t.classList.toggle("active", k === idx));
+    };
+    thumbs.forEach((t) => t.addEventListener("click", () => showAt(+t.dataset.i)));
+    gallery.querySelector(".prev").addEventListener("click", () => showAt(+gallery.dataset.index - 1));
+    gallery.querySelector(".next").addEventListener("click", () => showAt(+gallery.dataset.index + 1));
+
+    // Toggle de tamaño
+    const sizeButtons = card.querySelectorAll(".size-toggle button");
+    const priceEl = card.querySelector(".price");
+    const weightEl = card.querySelector(".weight-chip");
+    const addBtn = card.querySelector(".add-btn");
+    sizeButtons.forEach((b) => {
+      b.addEventListener("click", () => {
+        const size = b.dataset.size;
+        sizeButtons.forEach((x) => x.classList.toggle("active", x === b));
+        priceEl.textContent = fmt(p.sizes[size].price);
+        weightEl.textContent = p.sizes[size].weight;
+        addBtn.dataset.size = size;
+      });
+    });
+
+    addBtn.addEventListener("click", (e) => {
+      const btn = e.currentTarget;
+      addToCart(p.id, btn.dataset.size);
+      btn.classList.add("added");
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Agregado';
+      setTimeout(() => {
+        btn.classList.remove("added");
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Agregar';
+      }, 1400);
+    });
+  });
+
+  // CART (key = "id-size", value = qty)
+  const cart = new Map();
+  const cartCountEl = document.getElementById("cartCount");
+  const cartItemsEl = document.getElementById("cartItems");
+  const cartTotalEl = document.getElementById("cartTotal");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const drawer = document.getElementById("cartDrawer");
+  const overlay = document.getElementById("cartOverlay");
+  const toast = document.getElementById("toast");
+
+  const keyFor = (id, size) => `${id}-${size}`;
+  const parseKey = (k) => { const [i, s] = k.split("-"); return { id: +i, size: s }; };
+
+  function addToCart(id, size) {
+    const k = keyFor(id, size);
+    cart.set(k, (cart.get(k) || 0) + 1);
+    renderCart();
+    showToast(`🌱 ${SIZE_LABELS[size]} agregado al carrito`);
+  }
+  function changeQty(key, delta) {
+    const next = (cart.get(key) || 0) + delta;
+    if (next <= 0) cart.delete(key);
+    else cart.set(key, next);
+    renderCart();
+  }
+  function removeFromCart(key) { cart.delete(key); renderCart(); }
+
+  function renderCart() {
+    const totalQty = [...cart.values()].reduce((a, b) => a + b, 0);
+    cartCountEl.textContent = totalQty;
+    if (cart.size === 0) {
+      cartItemsEl.innerHTML = `
+        <div class="empty">
+          <div class="em">🛒</div>
+          <p><strong>Tu carrito está vacío</strong><br/>Sumá algunos snacks ricos.</p>
+        </div>`;
+      cartTotalEl.textContent = "$0";
+      checkoutBtn.disabled = true;
+      return;
+    }
+    let total = 0;
+    const lines = [];
+    cart.forEach((qty, key) => {
+      const { id, size } = parseKey(key);
+      const p = PRODUCTS.find((x) => x.id === id);
+      const s = p.sizes[size];
+      const sub = s.price * qty;
+      total += sub;
+      lines.push(`
+        <div class="cart-item">
+          <img src="${p.images[0]}" alt="${p.name}"/>
+          <div>
+            <div class="name">${p.name} <span style="color:var(--qi-orange);font-size:12px;">· ${SIZE_LABELS[size]}</span></div>
+            <div class="meta">${s.weight} · ${fmt(s.price)} c/u</div>
+            <div class="qty">
+              <button data-act="minus" data-key="${key}">−</button>
+              <span>${qty}</span>
+              <button data-act="plus" data-key="${key}">+</button>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="item-price">${fmt(sub)}</div>
+            <button class="remove" data-act="remove" data-key="${key}">Quitar</button>
+          </div>
+        </div>
+      `);
+    });
+    cartItemsEl.innerHTML = lines.join("");
+    cartTotalEl.textContent = fmt(total);
+    checkoutBtn.disabled = false;
+  }
+
+  cartItemsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const key = btn.dataset.key;
+    if (btn.dataset.act === "plus") changeQty(key, +1);
+    if (btn.dataset.act === "minus") changeQty(key, -1);
+    if (btn.dataset.act === "remove") removeFromCart(key);
+  });
+
+  document.getElementById("openCart").addEventListener("click", () => {
+    drawer.classList.add("open"); overlay.classList.add("open"); drawer.setAttribute("aria-hidden","false");
+  });
+  document.getElementById("closeCart").addEventListener("click", closeCart);
+  overlay.addEventListener("click", closeCart);
+  function closeCart() {
+    drawer.classList.remove("open"); overlay.classList.remove("open"); drawer.setAttribute("aria-hidden","true");
+  }
+
+  // CHECKOUT
+  checkoutBtn.addEventListener("click", () => {
+    if (cart.size === 0) return;
+    let msg = "¡Hola Qi! 🌿 Quiero hacer este pedido:%0A%0A";
+    let total = 0;
+    cart.forEach((qty, key) => {
+      const { id, size } = parseKey(key);
+      const p = PRODUCTS.find((x) => x.id === id);
+      const s = p.sizes[size];
+      const sub = s.price * qty;
+      total += sub;
+      msg += `• ${qty}x ${p.name} — ${SIZE_LABELS[size]} (${s.weight}) — ${fmt(sub)}%0A`;
+    });
+    msg += `%0A*Total: ${fmt(total)}*%0A%0A¿Cómo coordinamos entrega y pago? ¡Gracias!`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    window.open(url, "_blank");
+  });
+
+  // TOAST
+  let toastTimer;
+  function showToast(text) {
+    toast.textContent = text;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 1600);
+  }
+
+  renderCart();
+
+  // DOC VIEWER (certificados de Marina)
+  const docOverlay = document.getElementById("docOverlay");
+  const docBody = document.getElementById("docBody");
+  const docTitle = document.getElementById("docTitle");
+  const docClose = document.getElementById("docClose");
+
+  function openDoc(url, type, title) {
+    docTitle.textContent = title || "Documento";
+    let content = "";
+    if (type === "pdf") {
+      const src = url + "#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
+      content = `<embed src="${src}" type="application/pdf" />`;
+    } else {
+      content = `<img src="${url}" alt="${title}" oncontextmenu="return false;" draggable="false" />`;
+    }
+    content += `<div class="doc-watermark" aria-hidden="true">
+      <span>Qi · Marina Campana</span><span>Qi · Marina Campana</span>
+      <span>Qi · Marina Campana</span><span>Qi · Marina Campana</span>
+      <span>Qi · Marina Campana</span><span>Qi · Marina Campana</span>
+    </div>`;
+    docBody.innerHTML = content;
+    docOverlay.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeDoc() {
+    docOverlay.classList.remove("open");
+    document.body.style.overflow = "";
+    setTimeout(() => { docBody.innerHTML = ""; }, 280);
+  }
+
+  document.querySelectorAll(".cert-chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const url = btn.dataset.doc;
+      const type = btn.dataset.type;
+      const title = btn.dataset.title;
+      openDoc(url, type, title);
+    });
+  });
+
+  docClose.addEventListener("click", closeDoc);
+  docOverlay.addEventListener("click", e => {
+    if (e.target === docOverlay) closeDoc();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && docOverlay.classList.contains("open")) closeDoc();
+  });
+
+  // Bloqueo de teclas comunes de descarga/imprimir cuando el modal está abierto
+  document.addEventListener("keydown", e => {
+    if (!docOverlay.classList.contains("open")) return;
+    const k = e.key.toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && (k === "s" || k === "p")) {
+      e.preventDefault();
+      showToast("Documento privado — no se puede descargar");
+    }
+  });
+</script>
+
+</body>
+</html>

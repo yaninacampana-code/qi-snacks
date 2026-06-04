@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,800;1,700;1,800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+// ════════════════════════════════════════════════════════════════════════════
+//  PRODUCTOS — editá solo esta sección para cambiar precios, nombres, pesos
+// ════════════════════════════════════════════════════════════════════════════
+const PRODUCTS = [
+  {
+    num: "01", theme: "warm",
+    name: "Tablitas de Trigo\nSarraceno y Semillas",
+    desc: "Crujientes, rústicas y muy nutritivas. Ideales para picadas o acompañar comidas.",
+    price: "$2500", weight: "70 gr",
+    img: "Talitas sarraceno/01_tablitas_trigo_sarraceno.png"
+  },
+  {
+    num: "02", theme: "warm",
+    name: "Galletas\nMarineras",
+    desc: "Suaves y crocantes, perfectas para untar o acompañar dips.",
+    price: "$2000", weight: "70 gr",
+    img: "Marineras/02_galletas_marineras.png"
+  },
+  {
+    num: "03", theme: "green",
+    name: "Crakers de Mijo\ny Cebolla",
+    desc: "Livianos, crocantes y sabrosos. Ideales para dips o comer solos.",
+    price: "$2500", weight: "70 gr",
+    img: "cuadraditas yani/crakers mijo buena.jpeg"
+  },
+  {
+    num: "04", theme: "peach",
+    name: "Palitos de Batata\ny Romero",
+    desc: "Tiritas crocantes con un sabor suave y aromático. Un snack distinto y natural.",
+    price: "$3000", weight: "50 gr",
+    img: "batatitas/04_palitos_batata_romero.png"
+  },
+  {
+    num: "05", theme: "warm",
+    name: "Garbancitos\nCrocantes",
+    desc: "Ricos en proteína vegetal, ideales para picar algo nutritivo y saciante.",
+    price: "$2000", weight: "50 gr",
+    img: "garbanzo/ChatGPT Image May 11, 2026, 12_03_41 PM.png"
+  },
+  {
+    num: "06", theme: "green",
+    name: "Triangulitos de\nLentejas Turcas",
+    desc: "Sabor intenso y textura crocante. Perfectos para compartir o armar picadas completas.",
+    price: "$2500", weight: "50 gr",
+    img: "Nachos/06_triangulitos_lentejas.png"
+  },
+  {
+    num: "07", theme: "peach",
+    name: "Papas al\nOrégano",
+    desc: "Clásicas, crocantes y con un toque casero irresistible.",
+    price: "$2000", weight: "50 gr",
+    img: "redonditas de papa/07_papas_oregano.png"
+  },
+  {
+    num: "08", theme: "warm",
+    name: "Grisines a la\nProvenzal",
+    desc: "De garbanzo y papa, altos en proteína. Ideales para acompañar una merienda o desayuno. Son crujientes y sabrosos.",
+    price: "$2000", weight: "50 gr",
+    img: "Glisines provenzal/generated-image (8).png"
+  }
+];
+// ════════════════════════════════════════════════════════════════════════════
+</script>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 962px;
+  background: #ffffff;
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: #1a2e1c;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════════════════════ HEADER */
+.header {
+  background: linear-gradient(148deg, #f0faf3 0%, #dcf5e7 45%, #fff9ee 100%);
+  padding: 38px 36px 0 46px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 270px;
+  position: relative;
+  overflow: visible;
+}
+
+.header-text { padding-bottom: 48px; }
+
+.header-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #3a9e5c;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 74px;
+  line-height: 0.86;
+  color: #142e1a;
+  letter-spacing: -4px;
+}
+.header-title .accent {
+  font-style: italic;
+  color: #d95800;
+  display: block;
+  margin-top: 8px;
+}
+
+.header-tagline {
+  font-size: 14px;
+  color: #2e6038;
+  font-weight: 700;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 2px;
+}
+.header-tagline::before {
+  content: '';
+  width: 38px;
+  height: 3px;
+  background: linear-gradient(90deg, #d95800, #f5a030);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* nachos bowl — overflows below header for depth */
+.header-right {
+  position: relative;
+  width: 308px;
+  height: 308px;
+  flex-shrink: 0;
+  margin-bottom: -66px;
+  z-index: 5;
+}
+.header-bowl {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 7px solid #ffffff;
+  box-shadow: 0 20px 60px rgba(217,88,0,0.22), 0 6px 18px rgba(0,0,0,0.07);
+  outline: 3px solid #9aca2a;
+  outline-offset: 4px;
+}
+.header-bowl img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.header-qi-badge {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #ffffff;
+  box-shadow: 0 6px 22px rgba(217,88,0,0.36);
+}
+.header-qi-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* blending strip that hides the bowl/header seam */
+.header-fade {
+  background: linear-gradient(148deg, #f0faf3 0%, #dcf5e7 45%, #fff9ee 100%);
+  height: 66px;
+  margin-top: -1px;
+  position: relative;
+  z-index: 2;
+}
+.header-bar {
+  height: 6px;
+  background: linear-gradient(90deg, #142e1a 0%, #3a9e5c 35%, #9aca2a 68%, #d95800 100%);
+  position: relative;
+  z-index: 6;
+}
+
+/* ══════════════════════════════════════════════════════════ PILL */
+.pill-row {
+  background: #142e1a;
+  text-align: center;
+  padding: 13px;
+  position: relative;
+  z-index: 4;
+}
+.pill-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.07);
+  padding: 6px 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+/* ══════════════════════════════════════════════════════════ ICONS */
+.icons-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 18px 24px 16px;
+  border-bottom: 2px solid #c8e8a0;
+  gap: 2px;
+}
+.icon-item {
+  flex: 1;
+  text-align: center;
+  padding: 0 3px;
+}
+.icon-item img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  margin: 0 auto 6px;
+  display: block;
+}
+.icon-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #142e1a;
+  line-height: 1.35;
+}
+
+/* ══════════════════════════════════════════════════════════ SECTION TITLE */
+.section-title {
+  text-align: center;
+  padding: 30px 28px 22px;
+  background: #ffffff;
+}
+.section-eyebrow {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 4.5px;
+  text-transform: uppercase;
+  color: #3a9e5c;
+  margin-bottom: 10px;
+}
+.section-h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 36px;
+  color: #142e1a;
+  line-height: 1.16;
+}
+.section-h2 em { font-style: italic; color: #d95800; }
+.section-rule {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #3a9e5c;
+  font-size: 22px;
+}
+.rule-line {
+  flex: 1;
+  max-width: 110px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #9aca2a);
+}
+.rule-line.r { background: linear-gradient(90deg, #9aca2a, transparent); }
+
+/* ══════════════════════════════════════════════════════════ PER-CARD DECO */
+/* Positioned inside .card-img; clipped by overflow:hidden on .card */
+.card-deco {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 52px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.92;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.18));
+}
+
+/* ══════════════════════════════════════════════════════════ GRID */
+.grid-wrap {
+  padding: 10px 14px 14px;
+  background: #ffffff;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+/* ══════════════════════════════════════════════════════════ CARD */
+.card {
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+  position: relative;
+  min-height: 192px;
+  border: 1.5px solid rgba(20,46,26,0.07);
+}
+.card.warm  {
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(200,130,10,0.13), 0 2px 8px rgba(0,0,0,0.07);
+}
+.card.green {
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(30,144,60,0.13), 0 2px 8px rgba(0,0,0,0.07);
+}
+.card.peach {
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(200,80,20,0.13), 0 2px 8px rgba(0,0,0,0.07);
+}
+
+/* number badge — radial gradient for 3-D shine */
+.card-num {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 4;
+  width: 50px;
+  height: 50px;
+  color: #ffffff;
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 19px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% 50% 50% 12px;
+  transform: rotate(-12deg);
+  box-shadow:
+    0 6px 22px rgba(0,0,0,0.32),
+    0 2px 4px rgba(0,0,0,0.18),
+    inset 0 2px 0 rgba(255,255,255,0.48),
+    inset 0 -2px 6px rgba(0,0,0,0.18);
+}
+.card.warm  .card-num {
+  background: radial-gradient(ellipse at 38% 28%, #ffd04a 0%, #e89610 45%, #c07200 100%);
+}
+.card.green .card-num {
+  background: radial-gradient(ellipse at 38% 28%, #72e898 0%, #32bc60 45%, #18923e 100%);
+}
+.card.peach .card-num {
+  background: radial-gradient(ellipse at 38% 28%, #ff9054 0%, #e06020 45%, #b84008 100%);
+}
+
+/* image panel — very light tint, almost white */
+.card-img {
+  width: 174px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px 12px;
+  border-right: 1.5px solid rgba(0,0,0,0.05);
+  position: relative;
+}
+.card.warm  .card-img { background: #ffffff; }
+.card.green .card-img { background: #ffffff; }
+.card.peach .card-img { background: #ffffff; }
+
+.card-img img {
+  width: 100%;
+  max-height: 158px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 5px 16px rgba(0,0,0,0.18));
+}
+
+/* card body */
+.card-body {
+  flex: 1;
+  padding: 16px 16px 14px 15px;
+  display: flex;
+  flex-direction: column;
+}
+.card-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #142e1a;
+  margin-bottom: 7px;
+  white-space: pre-line;
+}
+.card-desc {
+  font-size: 11px;
+  color: #587060;
+  line-height: 1.5;
+  flex: 1;
+  margin-bottom: 12px;
+}
+.card-foot {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.card-price {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+}
+.card.warm  .card-price { color: #c88000; }
+.card.green .card-price { color: #1e9840; }
+.card.peach .card-price { color: #cc4c10; }
+
+.card-weight {
+  padding: 4px 13px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border: 1.5px solid;
+}
+.card.warm  .card-weight { background: #fff0b8; color: #8a5800; border-color: rgba(180,110,0,0.3); }
+.card.green .card-weight { background: #c8f0a0; color: #146030; border-color: rgba(30,130,60,0.3); }
+.card.peach .card-weight { background: #fed8b8; color: #9a3408; border-color: rgba(180,60,10,0.3); }
+
+/* ══════════════════════════════════════════════════════════ PROMO */
+.promo {
+  margin: 12px 14px 14px;
+  background: linear-gradient(135deg, #0e2614 0%, #246838 100%);
+  border-radius: 20px;
+  padding: 22px 28px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  box-shadow: 0 10px 34px rgba(20,46,26,0.26);
+  position: relative;
+  overflow: hidden;
+}
+.promo::before {
+  content: '';
+  position: absolute;
+  right: -55px;
+  top: -55px;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  background: rgba(154,202,42,0.12);
+  pointer-events: none;
+}
+.promo-text h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 22px;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.promo-text h3 em { font-style: italic; color: #f5a030; }
+.promo-text p {
+  font-size: 12px;
+  opacity: 0.88;
+  line-height: 1.55;
+  max-width: 340px;
+}
+.promo-btn {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #d95800, #b84000);
+  color: #ffffff;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 22px rgba(217,88,0,0.4);
+}
+
+/* ══════════════════════════════════════════════════════════ FOOTER */
+.footer {
+  background: linear-gradient(90deg, #0e2614, #142e1a, #0e2614);
+  color: #ffffff;
+  padding: 20px 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.footer-center {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: #b4d840;
+}
+.footer-icon { width: 20px; height: 20px; opacity: 0.78; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-text">
+    <div class="header-tag">🌿 Snacks biomédicos &nbsp;·&nbsp; Artesanales</div>
+    <div class="header-title">
+      qi snacks<br/><span class="accent">biomédicos.</span>
+    </div>
+    <div class="header-tagline">Alimentos con propósito 🌿</div>
+  </div>
+  <div class="header-right">
+    <div class="header-bowl">
+      <img src="Nachos/generated-image (1).png" alt="snacks qi"/>
+    </div>
+    <div class="header-qi-badge">
+      <img src="WhatsApp Image 2026-05-12 at 16.03.56.jpeg" alt="Qi logo"/>
+    </div>
+  </div>
+</div>
+<div class="header-fade"></div>
+<div class="header-bar"></div>
+
+<!-- PILL -->
+<div class="pill-row">
+  <span>🌿 &nbsp; Snacks artesanales saludables &nbsp; 🌿</span>
+</div>
+
+<!-- CERTIFICATION ICONS -->
+<div class="icons-row">
+  <div class="icon-item">
+    <img src="iconos/icon-1.png" alt="Sin gluten"/>
+    <div class="icon-label">SIN<br/>GLUTEN</div>
+  </div>
+  <div class="icon-item">
+    <img src="iconos/icon-2.png" alt="Sin lácteos"/>
+    <div class="icon-label">SIN<br/>LÁCTEOS</div>
+  </div>
+  <div class="icon-item">
+    <img src="iconos/icon-3.png" alt="Veganos"/>
+    <div class="icon-label">VEGANOS</div>
+  </div>
+  <div class="icon-item">
+    <img src="iconos/icon-4.png" alt="Sin azúcar"/>
+    <div class="icon-label">SIN<br/>AZÚCAR</div>
+  </div>
+  <div class="icon-item">
+    <img src="iconos/icon-5.png" alt="Sin levaduras"/>
+    <div class="icon-label">SIN<br/>LEVADURAS</div>
+  </div>
+  <div class="icon-item">
+    <img src="iconos/icon-6.png" alt="Sin soja"/>
+    <div class="icon-label">SIN<br/>SOJA</div>
+  </div>
+  <div class="icon-item">
+    <img src="iconos/icon-7.png" alt="Sin aditivos"/>
+    <div class="icon-label">SIN<br/>ADITIVOS</div>
+  </div>
+</div>
+
+<!-- SECTION TITLE -->
+<div class="section-title">
+  <div class="section-eyebrow">🌿 &nbsp; Nuestros snacks &nbsp; 🌿</div>
+  <div class="section-h2">Hechos de manera artesanal<br/>con <em>ingredientes reales</em></div>
+  <div class="section-rule">
+    <div class="rule-line"></div>
+    <span>❧</span>
+    <div class="rule-line r"></div>
+  </div>
+</div>
+
+<!-- PRODUCTS GRID -->
+<div class="grid-wrap">
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo">
+  <div class="promo-text">
+    <h3>Consultá por <em>combos &amp; promos</em></h3>
+    <p>Tenemos distintas presentaciones y paquetes familiares con descuento. Escribinos por WhatsApp y armamos el tuyo.</p>
+  </div>
+  <div class="promo-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+    </svg>
+    Hablar por WhatsApp
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-item">
+    <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24z"/>
+    </svg>
+    +54 9 11 5379-6212
+  </div>
+  <div class="footer-center">Ricos · Crocantes · Nutritivos</div>
+  <div class="footer-item">
+    <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.5.5.7.9.9 1.4.2.5.4 1.1.4 2.3.1 1.3.1 1.6.1 4.8s0 3.5-.1 4.7c-.1 1.2-.3 1.8-.4 2.3-.2.5-.5 1-.9 1.4-.5.5-.9.7-1.4.9-.4.2-1 .3-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.5-.5-.7-.9-.9-1.4-.2-.5-.4-1.1-.4-2.3-.1-1.3-.1-1.6-.1-4.8s0-3.5.1-4.8c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.5-.5.9-.7 1.4-.9.5-.2 1.1-.4 2.2-.4 1.3-.1 1.7-.1 4.8-.1zm0 3.8a5.9 5.9 0 100 11.8 5.9 5.9 0 000-11.8zm0 9.7a3.8 3.8 0 110-7.6 3.8 3.8 0 010 7.6zm7.5-9.9a1.4 1.4 0 11-2.8 0 1.4 1.4 0 012.8 0z"/>
+    </svg>
+    @qi_snacks
+  </div>
+</div>
+
+<script>
+const grid = document.getElementById('grid');
+PRODUCTS.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'card ' + p.theme;
+  const decoHtml = p.deco
+    ? '<img class="card-deco" src="' + p.deco + '" alt="" onerror="this.style.display=\'none\'">'
+    : '';
+  card.innerHTML =
+    '<div class="card-num">' + p.num + '</div>' +
+    '<div class="card-img">' +
+      '<img src="' + p.img + '" alt="' + p.name.replace(/\n/g,' ') + '"/>' +
+      decoHtml +
+    '</div>' +
+    '<div class="card-body">' +
+      '<div class="card-name">' + p.name.replace(/\n/g,'<br/>') + '</div>' +
+      '<div class="card-desc">' + p.desc + '</div>' +
+      '<div class="card-foot">' +
+        '<span class="card-price">' + p.price + '</span>' +
+        '<span class="card-weight">' + p.weight + '</span>' +
+      '</div>' +
+    '</div>';
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
