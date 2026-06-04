@@ -268,6 +268,33 @@
     box-shadow: 0 6px 14px rgba(58, 165, 91, 0.35);
   }
 
+  /* PROMO CARD */
+  .card.promo-card {
+    border: 2px solid var(--qi-orange);
+    background: linear-gradient(145deg, #fff8f0 0%, #f6faf3 100%);
+  }
+  .card.promo-card .num {
+    background: var(--qi-orange);
+    width: auto; height: auto;
+    padding: 7px 14px; border-radius: 99px;
+    font-size: 11px; letter-spacing: 1.2px;
+    text-transform: uppercase; transform: rotate(-5deg);
+  }
+  .promo-sticker {
+    position: absolute; top: 12px; right: 12px; z-index: 3;
+    background: #74ACDF; color: white;
+    font-size: 11px; font-weight: 800;
+    padding: 6px 12px; border-radius: 99px;
+    letter-spacing: 0.8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  .combo-includes {
+    background: #fff3e0; border-radius: 14px; padding: 12px 14px;
+    font-size: 12.5px; color: var(--qi-green-deep); margin-bottom: 18px;
+    line-height: 1.55;
+  }
+  .combo-includes b { color: var(--qi-orange); }
+
   .gallery {
     position: relative; aspect-ratio: 1/1;
     background: linear-gradient(135deg, #fafef5 0%, #f0f7ea 100%);
@@ -978,6 +1005,19 @@
 <script>
   const PRODUCTS = [
     {
+      id: 0, num: "PROMO", isPromo: true,
+      name: "Combo Argentina 🇦🇷",
+      desc: "El picada ideal para el Mundial. Solo durante junio.",
+      comboIncludes: "2 paquetes Galletas Marineras · 2 paquetes Tablitas de Trigo Sarraceno · 1 mermelada artesanal sin azúcar 200g a elección (kiwi, manzana, pera, uva o ciruela)",
+      imageLabels: ["Tablitas", "Marineras", "Mermeladas"],
+      sizes: { combo: { weight: "Combo completo", price: 11000 } },
+      images: [
+        "Talitas%20sarraceno/ChatGPT%20Image%20May%2011%2C%202026%2C%2010_16_21%20AM.png",
+        "Marineras/ChatGPT%20Image%20May%2011%2C%202026%2C%2011_58_00%20AM.png",
+        "WhatsApp%20Image%202026-05-17%20at%2005.32.24.jpeg"
+      ]
+    },
+    {
       id: 1, num: "01",
       name: "Tablitas de Trigo Sarraceno y Semillas",
       desc: "Crujientes, rústicas y muy nutritivas. Ideales para picadas o acompañar comidas.",
@@ -1078,17 +1118,18 @@
   const WHATSAPP_NUMBER = "5491153796212";
   const fmt = (n) => "$" + n.toLocaleString("es-AR");
 
-  const SIZE_LABELS = { ind: "Individual", fam: "Familiar" };
+  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷" };
 
   // RENDER
   const grid = document.getElementById("grid");
   PRODUCTS.forEach((p) => {
-    const labels = ["Bolsa", "En plato", "Inspiración"];
+    const labels = p.imageLabels || ["Bolsa", "En plato", "Inspiración"];
     const card = document.createElement("article");
-    card.className = "card";
-    const defSize = "ind";
+    card.className = p.isPromo ? "card promo-card" : "card";
+    const defSize = p.isPromo ? "combo" : "ind";
     card.innerHTML = `
       <div class="num">${p.num}</div>
+      ${p.isPromo ? '<div class="promo-sticker">⚽ Solo Junio</div>' : ''}
       <div class="gallery" data-index="0">
         ${p.images.map((src, i) => `<img src="${src}" alt="${p.name} - ${labels[i]||''}" class="${i===0?'active':''}" loading="lazy" />`).join("")}
         <button class="nav-arrow prev" aria-label="Anterior">‹</button>
@@ -1100,11 +1141,14 @@
       <div class="card-body">
         <h3 class="card-title">${p.name}</h3>
         <p class="card-desc">${p.desc}</p>
-        <div class="ingredients"><b>Ingredientes:</b> ${p.ingredients}</div>
+        ${p.isPromo
+          ? `<div class="combo-includes"><b>Incluye:</b> ${p.comboIncludes}</div>`
+          : `<div class="ingredients"><b>Ingredientes:</b> ${p.ingredients}</div>
         <div class="size-toggle">
           <button class="active" data-size="ind">Individual</button>
           <button data-size="fam">Familiar</button>
-        </div>
+        </div>`
+        }
         <div class="card-foot">
           <div class="price-wrap">
             <div class="price">${fmt(p.sizes[defSize].price)}</div>
@@ -1132,20 +1176,22 @@
     gallery.querySelector(".prev").addEventListener("click", () => showAt(+gallery.dataset.index - 1));
     gallery.querySelector(".next").addEventListener("click", () => showAt(+gallery.dataset.index + 1));
 
-    // Toggle de tamaño
-    const sizeButtons = card.querySelectorAll(".size-toggle button");
-    const priceEl = card.querySelector(".price");
-    const weightEl = card.querySelector(".weight-chip");
-    const addBtn = card.querySelector(".add-btn");
-    sizeButtons.forEach((b) => {
-      b.addEventListener("click", () => {
-        const size = b.dataset.size;
-        sizeButtons.forEach((x) => x.classList.toggle("active", x === b));
-        priceEl.textContent = fmt(p.sizes[size].price);
-        weightEl.textContent = p.sizes[size].weight;
-        addBtn.dataset.size = size;
+    // Toggle de tamaño (solo para productos con talle)
+    if (!p.isPromo) {
+      const sizeButtons = card.querySelectorAll(".size-toggle button");
+      const priceEl = card.querySelector(".price");
+      const weightEl = card.querySelector(".weight-chip");
+      const addBtn = card.querySelector(".add-btn");
+      sizeButtons.forEach((b) => {
+        b.addEventListener("click", () => {
+          const size = b.dataset.size;
+          sizeButtons.forEach((x) => x.classList.toggle("active", x === b));
+          priceEl.textContent = fmt(p.sizes[size].price);
+          weightEl.textContent = p.sizes[size].weight;
+          addBtn.dataset.size = size;
+        });
       });
-    });
+    }
 
     addBtn.addEventListener("click", (e) => {
       const btn = e.currentTarget;
