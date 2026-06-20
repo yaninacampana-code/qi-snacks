@@ -995,6 +995,18 @@
       images: ["promo%20mundial.png"]
     },
     {
+      id: 9, num: "PROMO", isPromo: true,
+      name: "Promo Picada",
+      desc: "Picada argentina para alentar todos juntos. Elegí tu promo.",
+      comboIncludes: "8 paquetes de QI Snacks (todos los sabores) · Conservas de Lo Artesanal a elección · <b>200g de Nueces Pecán de regalo</b>",
+      sizes: {
+        promo1: { weight: "4 conservas incluidas", price: 32000 },
+        promo2: { weight: "2 conservas a elección", price: 25000 }
+      },
+      images: ["Promo%20mundialera/promo%2032.png", "Promo%20mundialera/promo%2025.png"],
+      variantImage: { promo1: 0, promo2: 1 }
+    },
+    {
       id: 1, num: "01",
       name: "Tablitas de Trigo Sarraceno y Semillas",
       desc: "Crujientes, rústicas y muy nutritivas. Ideales para picadas o acompañar comidas.",
@@ -1095,7 +1107,7 @@
   const WHATSAPP_NUMBER = "5491153796212";
   const fmt = (n) => "$" + n.toLocaleString("es-AR");
 
-  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷" };
+  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo1: "Promo 1", promo2: "Promo 2" };
 
   // RENDER
   const grid = document.getElementById("grid");
@@ -1103,13 +1115,18 @@
     const labels = ["Bolsa", "En plato", "Inspiración"];
     const card = document.createElement("article");
     card.className = p.isPromo ? "card promo-card" : "card";
-    const defSize = p.isPromo ? "combo" : "ind";
+    const sizeKeys = Object.keys(p.sizes);
+    const defSize = sizeKeys[0];
+    const hasMultipleSizes = sizeKeys.length > 1;
+    const sizeToggleHTML = hasMultipleSizes
+      ? '<div class="size-toggle">' + sizeKeys.map((k, i) => `<button class="${i===0?'active':''}" data-size="${k}">${SIZE_LABELS[k]}</button>`).join("") + '</div>'
+      : '';
     const topSection = p.isPromo
       ? '<div class="promo-header"><span class="promo-label">PROMO</span><span class="promo-solo">⚽ Solo Junio</span></div>'
       : '<div class="num">' + p.num + '</div>';
     const midContent = p.isPromo
-      ? '<div class="combo-includes"><b>Incluye:</b> ' + p.comboIncludes + '</div>'
-      : '<div class="ingredients"><b>Ingredientes:</b> ' + p.ingredients + '</div><div class="size-toggle"><button class="active" data-size="ind">Individual</button><button data-size="fam">Familiar</button></div>';
+      ? '<div class="combo-includes"><b>Incluye:</b> ' + p.comboIncludes + '</div>' + sizeToggleHTML
+      : '<div class="ingredients"><b>Ingredientes:</b> ' + p.ingredients + '</div>' + sizeToggleHTML;
     card.innerHTML = `
       ${topSection}
       <div class="gallery" data-index="0">
@@ -1151,9 +1168,9 @@
     gallery.querySelector(".prev").addEventListener("click", () => showAt(+gallery.dataset.index - 1));
     gallery.querySelector(".next").addEventListener("click", () => showAt(+gallery.dataset.index + 1));
 
-    // Toggle de tamaño (solo productos con talle)
+    // Toggle de tamaño / promo (solo productos con más de una opción)
     const addBtn = card.querySelector(".add-btn");
-    if (!p.isPromo) {
+    if (hasMultipleSizes) {
       const sizeButtons = card.querySelectorAll(".size-toggle button");
       const priceEl = card.querySelector(".price");
       const weightEl = card.querySelector(".weight-chip");
@@ -1164,6 +1181,7 @@
           priceEl.textContent = fmt(p.sizes[size].price);
           weightEl.textContent = p.sizes[size].weight;
           addBtn.dataset.size = size;
+          if (p.variantImage && p.variantImage[size] !== undefined) showAt(p.variantImage[size]);
         });
       });
     }
