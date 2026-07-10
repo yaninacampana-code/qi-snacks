@@ -345,6 +345,8 @@
     box-shadow: 0 2px 8px rgba(31, 77, 46, 0.12);
   }
   .size-toggle button:hover:not(.active) { color: var(--qi-orange); }
+  .size-toggle.size-toggle-multi { flex-wrap: wrap; border-radius: 16px; }
+  .size-toggle.size-toggle-multi button { flex: 1 1 30%; padding: 8px 6px; font-size: 11px; }
   .card-foot {
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
@@ -1121,13 +1123,27 @@
         "Glisines%20provenzal/generated-image%20(10).png",
         "Glisines%20provenzal/generated-image%20(7).png"
       ]
+    },
+    {
+      id: 12, num: "09",
+      name: "Mermeladas Artesanales",
+      desc: "¡Ahora las podés combinar como quieras! Pedí tu mermelada favorita de Lo Artesanal y combinala con el snack que más te guste.",
+      ingredients: "Fruta, sin azúcar añadida.",
+      sizes: {
+        kiwi: { weight: "200 g", price: 3000 },
+        manzana: { weight: "200 g", price: 3000 },
+        pera: { weight: "200 g", price: 3000 },
+        uva: { weight: "200 g", price: 3000 },
+        ciruela: { weight: "200 g", price: 3000 }
+      },
+      images: ["Promo%20mundialera/ChatGPT%20Image%20Jul%2010%2C%202026%2C%2002_00_41%20PM.png"]
     }
   ];
 
   const WHATSAPP_NUMBER = "5491153796212";
   const fmt = (n) => "$" + n.toLocaleString("es-AR");
 
-  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo1: "Promo 1", promo2: "Promo 2" };
+  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo1: "Promo 1", promo2: "Promo 2", kiwi: "Kiwi", manzana: "Manzana", pera: "Pera", uva: "Uva", ciruela: "Ciruela" };
 
   // RENDER
   const grid = document.getElementById("grid");
@@ -1139,7 +1155,7 @@
     const defSize = sizeKeys[0];
     const hasMultipleSizes = sizeKeys.length > 1;
     const sizeToggleHTML = hasMultipleSizes
-      ? '<div class="size-toggle">' + sizeKeys.map((k, i) => `<button class="${i===0?'active':''}" data-size="${k}">${SIZE_LABELS[k]}</button>`).join("") + '</div>'
+      ? '<div class="size-toggle' + (sizeKeys.length > 2 ? ' size-toggle-multi' : '') + '">' + sizeKeys.map((k, i) => `<button class="${i===0?'active':''}" data-size="${k}">${SIZE_LABELS[k]}</button>`).join("") + '</div>'
       : '';
     const topSection = p.isPromo
       ? '<div class="promo-header"><span class="promo-label">' + (p.promoLabel || "PROMO") + '</span><span class="promo-solo">' + (p.promoTag || "⚽ Solo Junio") + '</span></div>'
