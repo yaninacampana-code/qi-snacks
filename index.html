@@ -1137,13 +1137,26 @@
         ciruela: { weight: "200 g", price: 3500 }
       },
       images: ["Promo%20mundialera/ChatGPT%20Image%20Jul%2010%2C%202026%2C%2002_00_41%20PM.png"]
+    },
+    {
+      id: 13, num: "10",
+      name: "Conservas de Lo Artesanal",
+      desc: "Conservas artesanales ideales para acompañar tus picadas y snacks favoritos.",
+      ingredients: "Verduras seleccionadas y condimentos naturales.",
+      sizes: {
+        morrones: { weight: "150 g", price: 3500 },
+        berenjenasHungaras: { weight: "150 g", price: 3500 },
+        aceitunas: { weight: "300 g", price: 4500 },
+        berenjenasEscabeche: { weight: "200 g", price: 4500 }
+      },
+      images: ["Conservas.png"]
     }
   ];
 
   const WHATSAPP_NUMBER = "5491153796212";
   const fmt = (n) => "$" + n.toLocaleString("es-AR");
 
-  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo1: "Promo 1", promo2: "Promo 2", kiwi: "Kiwi", manzana: "Manzana", pera: "Pera", uva: "Uva", ciruela: "Ciruela" };
+  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo1: "Promo 1", promo2: "Promo 2", kiwi: "Kiwi", manzana: "Manzana", pera: "Pera", uva: "Uva", ciruela: "Ciruela", morrones: "Morrones", berenjenasHungaras: "Berenjenas Húngaras", aceitunas: "Aceitunas Condimentadas", berenjenasEscabeche: "Berenjenas en Escabeche" };
 
   // RENDER
   const grid = document.getElementById("grid");
