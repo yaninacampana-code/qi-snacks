@@ -266,29 +266,55 @@
   .combo-includes b { color: var(--qi-orange); }
 
   /* PROMO ARMABLE (promo del recreo) */
-  .card.builder-card { border: 2px solid var(--qi-lime); background: linear-gradient(145deg, #fcffef 0%, #f6faf3 100%); }
+  .card.builder-card {
+    border: 2px solid var(--qi-lime);
+    background: linear-gradient(145deg, #fcffef 0%, #f6faf3 100%);
+    overflow: visible; z-index: 4;
+  }
+  /* sin overflow hidden hay que redondear las esquinas de arriba a mano */
+  .builder-card .promo-header, .builder-card .gallery:first-child {
+    border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;
+  }
   .promo-header.builder-header { background: linear-gradient(90deg, var(--qi-green) 0%, var(--qi-lime) 100%); }
   .builder { margin-bottom: 18px; }
-  .builder-step {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; font-weight: 800; color: var(--qi-green-deep); margin: 0 0 10px;
+  .drop { position: relative; margin-bottom: 9px; }
+  .drop-btn {
+    width: 100%; display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 14px; cursor: pointer;
+    background: white; border: 1.5px solid var(--qi-line);
+    font-size: 13px; font-weight: 800; color: var(--qi-green-deep);
+    transition: all .18s ease;
   }
-  .builder-step .step-num {
+  .drop-btn:hover { border-color: var(--qi-green); }
+  .drop.open .drop-btn { border-color: var(--qi-green); background: var(--qi-green-soft); }
+  .drop-btn .step-num {
     width: 21px; height: 21px; border-radius: 50%; flex: none;
     background: var(--qi-orange); color: white; font-size: 11.5px;
     display: flex; align-items: center; justify-content: center;
   }
-  .builder-step .step-count {
-    margin-left: auto; background: var(--qi-green-soft); color: var(--qi-green-deep);
-    padding: 3px 10px; border-radius: 999px; font-size: 11px; letter-spacing: .4px;
+  .drop-label { flex: 1; text-align: left; }
+  .drop-btn .step-count {
+    flex: none; background: var(--qi-green-soft); color: var(--qi-green-deep);
+    padding: 3px 10px; border-radius: 999px; font-size: 11px; letter-spacing: .3px;
+    max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
-  .builder-step .step-count.done { background: var(--qi-orange); color: white; }
-  .pick-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+  .drop.open .drop-btn .step-count { background: white; }
+  .drop-btn .step-count.done { background: var(--qi-orange); color: white; }
+  .drop-chev { flex: none; transition: transform .2s ease; }
+  .drop.open .drop-chev { transform: rotate(180deg); }
+  .drop-panel {
+    display: none; position: absolute; left: 0; right: 0; top: calc(100% + 6px);
+    z-index: 30; background: white; border: 1.5px solid var(--qi-green);
+    border-radius: 16px; box-shadow: var(--shadow); padding: 9px;
+    max-height: 264px; overflow-y: auto;
+  }
+  .drop.open .drop-panel { display: block; }
+  .pick-grid { display: flex; flex-wrap: wrap; gap: 7px; }
   .pick {
-    flex: 1 1 calc(50% - 4px); text-align: left; cursor: pointer;
+    flex: 1 1 100%; text-align: left; cursor: pointer;
     display: flex; align-items: center; gap: 7px; padding: 8px 10px;
     border-radius: 12px; background: white; border: 1.5px solid var(--qi-line);
-    font-size: 11.5px; font-weight: 700; color: var(--qi-green-deep);
+    font-size: 12px; font-weight: 700; color: var(--qi-green-deep);
     line-height: 1.25; transition: all .18s ease;
   }
   .pick .tick {
@@ -301,12 +327,11 @@
   .pick.on { border-color: var(--qi-green); background: var(--qi-green-soft); }
   .pick.on .tick { background: var(--qi-green); border-color: var(--qi-green); }
   .pick.muted { opacity: .45; }
-  .builder-hint { font-size: 11.5px; font-weight: 700; color: var(--qi-muted); margin: -8px 0 16px; }
+  .builder-hint { font-size: 11.5px; font-weight: 700; color: var(--qi-muted); margin: 12px 0 0; }
   .add-btn[disabled] { background: #c3d1c2; cursor: not-allowed; transform: none; }
   .add-btn[disabled]:hover { background: #c3d1c2; transform: none; }
   .cart-item .pick-detail { margin-top: 4px; line-height: 1.45; }
   .builder-card .weight-chip { display: none; }
-  @media (max-width: 400px) { .pick { flex: 1 1 100%; } }
 
   /* leaf-shaped number badge */
   .card .num {
@@ -1315,12 +1340,25 @@
       `<button type="button" class="pick" data-kind="${kind}" data-id="${id}"><span class="tick">✓</span>${label}</button>`;
     const snacks = b.snackIds.map((id) => chip("snack", id, PRODUCTS.find((x) => x.id === id).name)).join("");
     const toys = b.toys.map((t) => chip("toy", t.id, t.label)).join("");
+    const chev = '<svg class="drop-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
     return `
       <div class="builder">
-        <div class="builder-step"><span class="step-num">1</span> Elegí ${b.snackCount} snacks <span class="step-count">0/${b.snackCount}</span></div>
-        <div class="pick-grid pick-snacks">${snacks}</div>
-        <div class="builder-step"><span class="step-num">2</span> Sumá 1 juguete</div>
-        <div class="pick-grid pick-toys">${toys}</div>
+        <div class="drop" data-drop="snacks">
+          <button type="button" class="drop-btn">
+            <span class="step-num">1</span>
+            <span class="drop-label">Elegí ${b.snackCount} snacks</span>
+            <span class="step-count snack-count">0/${b.snackCount}</span>${chev}
+          </button>
+          <div class="drop-panel"><div class="pick-grid pick-snacks">${snacks}</div></div>
+        </div>
+        <div class="drop" data-drop="toy">
+          <button type="button" class="drop-btn">
+            <span class="step-num">2</span>
+            <span class="drop-label">Sumá 1 juguete</span>
+            <span class="step-count toy-count">A elección</span>${chev}
+          </button>
+          <div class="drop-panel"><div class="pick-grid pick-toys">${toys}</div></div>
+        </div>
         <p class="builder-hint"></p>
       </div>`;
   }
@@ -1407,14 +1445,29 @@
     let builderState = null;
     if (p.isBuilder) {
       const picks = card.querySelectorAll(".pick");
-      const countEl = card.querySelector(".step-count");
+      const drops = card.querySelectorAll(".drop");
+      const countEl = card.querySelector(".snack-count");
+      const toyCountEl = card.querySelector(".toy-count");
       const hintEl = card.querySelector(".builder-hint");
       const need = p.builder.snackCount;
       builderState = { snacks: [], toy: null };
+
+      // desplegables: se abre uno por vez y se cierran al tocar afuera
+      const closeDrops = (except) => drops.forEach((d) => { if (d !== except) d.classList.remove("open"); });
+      drops.forEach((d) => d.querySelector(".drop-btn").addEventListener("click", () => {
+        const willOpen = !d.classList.contains("open");
+        closeDrops(d);
+        d.classList.toggle("open", willOpen);
+      }));
+      document.addEventListener("click", (ev) => { if (!card.contains(ev.target)) closeDrops(null); });
+
       const sync = () => {
         const faltan = need - builderState.snacks.length;
         countEl.textContent = builderState.snacks.length + "/" + need;
         countEl.classList.toggle("done", faltan === 0);
+        const toy = p.builder.toys.find((t) => t.id === builderState.toy);
+        toyCountEl.textContent = toy ? toy.label : "A elección";
+        toyCountEl.classList.toggle("done", !!toy);
         picks.forEach((el) => {
           if (el.dataset.kind === "snack")
             el.classList.toggle("muted", faltan === 0 && !el.classList.contains("on"));
@@ -1437,10 +1490,17 @@
           else { builderState.snacks.push(snackId); el.classList.add("on"); }
         }
         sync();
+        // al completar un paso se cierra su desplegable y sigue el siguiente
+        if (el.dataset.kind === "toy") closeDrops(null);
+        else if (builderState.snacks.length === need) {
+          closeDrops(null);
+          if (!builderState.toy) card.querySelector('[data-drop="toy"]').classList.add("open");
+        }
       }));
       builderState.reset = () => {
         builderState.snacks = []; builderState.toy = null;
         picks.forEach((el) => el.classList.remove("on"));
+        closeDrops(null);
         sync();
       };
       sync();
