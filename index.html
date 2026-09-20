@@ -265,6 +265,49 @@
   .combo-includes { background: #fff3e0; border-radius: 14px; padding: 12px 14px; font-size: 12.5px; color: var(--qi-green-deep); margin-bottom: 18px; line-height: 1.55; }
   .combo-includes b { color: var(--qi-orange); }
 
+  /* PROMO ARMABLE (promo del recreo) */
+  .card.builder-card { border: 2px solid var(--qi-lime); background: linear-gradient(145deg, #fcffef 0%, #f6faf3 100%); }
+  .promo-header.builder-header { background: linear-gradient(90deg, var(--qi-green) 0%, var(--qi-lime) 100%); }
+  .builder { margin-bottom: 18px; }
+  .builder-step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 800; color: var(--qi-green-deep); margin: 0 0 10px;
+  }
+  .builder-step .step-num {
+    width: 21px; height: 21px; border-radius: 50%; flex: none;
+    background: var(--qi-orange); color: white; font-size: 11.5px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .builder-step .step-count {
+    margin-left: auto; background: var(--qi-green-soft); color: var(--qi-green-deep);
+    padding: 3px 10px; border-radius: 999px; font-size: 11px; letter-spacing: .4px;
+  }
+  .builder-step .step-count.done { background: var(--qi-orange); color: white; }
+  .pick-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+  .pick {
+    flex: 1 1 calc(50% - 4px); text-align: left; cursor: pointer;
+    display: flex; align-items: center; gap: 7px; padding: 8px 10px;
+    border-radius: 12px; background: white; border: 1.5px solid var(--qi-line);
+    font-size: 11.5px; font-weight: 700; color: var(--qi-green-deep);
+    line-height: 1.25; transition: all .18s ease;
+  }
+  .pick .tick {
+    width: 15px; height: 15px; border-radius: 5px; flex: none;
+    border: 1.5px solid var(--qi-line); background: white; color: white;
+    font-size: 10px; display: flex; align-items: center; justify-content: center;
+  }
+  .pick-toys .pick .tick { border-radius: 50%; }
+  .pick:hover { border-color: var(--qi-green); }
+  .pick.on { border-color: var(--qi-green); background: var(--qi-green-soft); }
+  .pick.on .tick { background: var(--qi-green); border-color: var(--qi-green); }
+  .pick.muted { opacity: .45; }
+  .builder-hint { font-size: 11.5px; font-weight: 700; color: var(--qi-muted); margin: -8px 0 16px; }
+  .add-btn[disabled] { background: #c3d1c2; cursor: not-allowed; transform: none; }
+  .add-btn[disabled]:hover { background: #c3d1c2; transform: none; }
+  .cart-item .pick-detail { margin-top: 4px; line-height: 1.45; }
+  .builder-card .weight-chip { display: none; }
+  @media (max-width: 400px) { .pick { flex: 1 1 100%; } }
+
   /* leaf-shaped number badge */
   .card .num {
     position: absolute; top: 14px; left: 14px; z-index: 3;
@@ -1056,6 +1099,20 @@
 <script>
   const PRODUCTS = [
     {
+      id: 18, isBuilder: true,
+      promoLabel: "Promo del recreo",
+      promoTag: "5 snacks + 1 juguete",
+      name: "Recreos Saludables y Divertidos",
+      desc: "Armá tu promo: elegí 5 snacks a elección y sumá un juguete. Ideal para la vianda del cole.",
+      builder: {
+        snackCount: 5,
+        snackIds: [3, 6, 5, 7, 14, 8, 4, 1, 2, 11, 17],
+        toys: [{ id: "pintar", label: "Kit para pintar" }, { id: "tateti", label: "Ta-te-ti" }]
+      },
+      sizes: { promo: { weight: "5 snacks + 1 juguete", price: 15000 } },
+      images: ["Promo%20recreo/promo-recreo.webp"]
+    },
+    {
       id: 17, num: "NOVEDAD",
       name: "Cookies Chips de Chocolate",
       desc: "Una crujiente galleta dulce con chocolate y un toque de sal marina.",
@@ -1249,24 +1306,43 @@
   const WHATSAPP_NUMBER = "5491153796212";
   const fmt = (n) => "$" + n.toLocaleString("es-AR");
 
-  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo1: "Promo 1", promo2: "Promo 2", kiwi: "Kiwi", manzana: "Manzana", pera: "Pera", uva: "Uva", ciruela: "Ciruela", morrones: "Morrones", berenjenasHungaras: "Berenjenas Húngaras", aceitunas: "Aceitunas Condimentadas", berenjenasEscabeche: "Berenjenas en Escabeche" };
+  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo: "Promo del recreo", promo1: "Promo 1", promo2: "Promo 2", kiwi: "Kiwi", manzana: "Manzana", pera: "Pera", uva: "Uva", ciruela: "Ciruela", morrones: "Morrones", berenjenasHungaras: "Berenjenas Húngaras", aceitunas: "Aceitunas Condimentadas", berenjenasEscabeche: "Berenjenas en Escabeche" };
+
+  // Armador de la promo del recreo: fichas para marcar snacks y juguete
+  function builderHTML(p) {
+    const b = p.builder;
+    const chip = (kind, id, label) =>
+      `<button type="button" class="pick" data-kind="${kind}" data-id="${id}"><span class="tick">✓</span>${label}</button>`;
+    const snacks = b.snackIds.map((id) => chip("snack", id, PRODUCTS.find((x) => x.id === id).name)).join("");
+    const toys = b.toys.map((t) => chip("toy", t.id, t.label)).join("");
+    return `
+      <div class="builder">
+        <div class="builder-step"><span class="step-num">1</span> Elegí ${b.snackCount} snacks <span class="step-count">0/${b.snackCount}</span></div>
+        <div class="pick-grid pick-snacks">${snacks}</div>
+        <div class="builder-step"><span class="step-num">2</span> Sumá 1 juguete</div>
+        <div class="pick-grid pick-toys">${toys}</div>
+        <p class="builder-hint"></p>
+      </div>`;
+  }
 
   // RENDER
   const grid = document.getElementById("grid");
   PRODUCTS.forEach((p) => {
     const labels = ["Bolsa", "En plato", "Inspiración"];
     const card = document.createElement("article");
-    card.className = p.isPromo ? "card promo-card" : "card";
+    card.className = p.isBuilder ? "card promo-card builder-card" : p.isPromo ? "card promo-card" : "card";
     const sizeKeys = Object.keys(p.sizes);
     const defSize = sizeKeys[0];
     const hasMultipleSizes = sizeKeys.length > 1;
     const sizeToggleHTML = hasMultipleSizes
       ? '<div class="size-toggle' + (sizeKeys.length > 2 ? ' size-toggle-multi' : '') + '">' + sizeKeys.map((k, i) => `<button class="${i===0?'active':''}" data-size="${k}">${SIZE_LABELS[k]}</button>`).join("") + '</div>'
       : '';
-    const topSection = p.isPromo
-      ? '<div class="promo-header"><span class="promo-label">' + (p.promoLabel || "PROMO") + '</span><span class="promo-solo">' + (p.promoTag || "⚽ Solo Junio") + '</span></div>'
+    const topSection = (p.isPromo || p.isBuilder)
+      ? '<div class="promo-header' + (p.isBuilder ? ' builder-header' : '') + '"><span class="promo-label">' + (p.promoLabel || "PROMO") + '</span><span class="promo-solo">' + (p.promoTag || "⚽ Solo Junio") + '</span></div>'
       : '<div class="num' + (p.num.length > 2 ? ' num-wide' : '') + '">' + p.num + '</div>';
-    const midContent = p.isPromo
+    const midContent = p.isBuilder
+      ? builderHTML(p)
+      : p.isPromo
       ? '<div class="combo-includes"><b>Incluye:</b> ' + p.comboIncludes + '</div>' + sizeToggleHTML
       : '<div class="ingredients"><b>Ingredientes:</b> ' + p.ingredients + '</div>' + sizeToggleHTML;
     card.innerHTML = `
@@ -1328,9 +1404,57 @@
       });
     }
 
+    let builderState = null;
+    if (p.isBuilder) {
+      const picks = card.querySelectorAll(".pick");
+      const countEl = card.querySelector(".step-count");
+      const hintEl = card.querySelector(".builder-hint");
+      const need = p.builder.snackCount;
+      builderState = { snacks: [], toy: null };
+      const sync = () => {
+        const faltan = need - builderState.snacks.length;
+        countEl.textContent = builderState.snacks.length + "/" + need;
+        countEl.classList.toggle("done", faltan === 0);
+        picks.forEach((el) => {
+          if (el.dataset.kind === "snack")
+            el.classList.toggle("muted", faltan === 0 && !el.classList.contains("on"));
+        });
+        hintEl.textContent = faltan > 0
+          ? (faltan === 1 ? "Te falta elegir 1 snack." : `Te faltan ${faltan} snacks.`)
+          : !builderState.toy ? "Elegí el juguete para completar la promo."
+          : "¡Listo! Ya podés agregar tu promo.";
+        addBtn.disabled = faltan !== 0 || !builderState.toy;
+      };
+      picks.forEach((el) => el.addEventListener("click", () => {
+        if (el.dataset.kind === "toy") {
+          builderState.toy = el.dataset.id;
+          picks.forEach((o) => { if (o.dataset.kind === "toy") o.classList.toggle("on", o === el); });
+        } else {
+          const snackId = +el.dataset.id;
+          const at = builderState.snacks.indexOf(snackId);
+          if (at >= 0) { builderState.snacks.splice(at, 1); el.classList.remove("on"); }
+          else if (builderState.snacks.length >= need) { showToast(`Ya elegiste ${need} snacks 🙌`); return; }
+          else { builderState.snacks.push(snackId); el.classList.add("on"); }
+        }
+        sync();
+      }));
+      builderState.reset = () => {
+        builderState.snacks = []; builderState.toy = null;
+        picks.forEach((el) => el.classList.remove("on"));
+        sync();
+      };
+      sync();
+    }
+
     addBtn.addEventListener("click", (e) => {
       const btn = e.currentTarget;
-      addToCart(p.id, btn.dataset.size);
+      if (builderState) {
+        if (btn.disabled) return;
+        addBuilderToCart(p, builderState);
+        builderState.reset();
+      } else {
+        addToCart(p.id, btn.dataset.size);
+      }
       btn.classList.add("added");
       btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Agregado';
       setTimeout(() => {
@@ -1353,6 +1477,21 @@
   const keyFor = (id, size) => `${id}-${size}`;
   const parseKey = (k) => { const [i, s] = k.split("-"); return { id: +i, size: s }; };
 
+  // que eligio el cliente en cada promo armada (clave del carrito -> detalle)
+  const promoPicks = new Map();
+  function addBuilderToCart(p, sel) {
+    const size = Object.keys(p.sizes)[0];
+    const ids = [...sel.snacks].sort((a, b) => a - b);
+    const key = `${keyFor(p.id, size)}-${ids.join(".")}_${sel.toy}`;
+    promoPicks.set(key, {
+      snacks: ids.map((id) => PRODUCTS.find((x) => x.id === id).name),
+      toy: p.builder.toys.find((t) => t.id === sel.toy).label
+    });
+    cart.set(key, (cart.get(key) || 0) + 1);
+    renderCart();
+    showToast("🎒 Promo del recreo agregada al carrito");
+  }
+
   function addToCart(id, size) {
     const k = keyFor(id, size);
     cart.set(k, (cart.get(k) || 0) + 1);
@@ -1361,11 +1500,10 @@
   }
   function changeQty(key, delta) {
     const next = (cart.get(key) || 0) + delta;
-    if (next <= 0) cart.delete(key);
-    else cart.set(key, next);
-    renderCart();
+    if (next <= 0) removeFromCart(key);
+    else { cart.set(key, next); renderCart(); }
   }
-  function removeFromCart(key) { cart.delete(key); renderCart(); }
+  function removeFromCart(key) { cart.delete(key); promoPicks.delete(key); renderCart(); }
 
   function renderCart() {
     const totalQty = [...cart.values()].reduce((a, b) => a + b, 0);
@@ -1388,12 +1526,14 @@
       const s = p.sizes[size];
       const sub = s.price * qty;
       total += sub;
+      const picks = promoPicks.get(key);
       lines.push(`
         <div class="cart-item">
           <img src="${p.images[0]}" alt="${p.name}"/>
           <div>
             <div class="name">${p.name} <span style="color:var(--qi-orange);font-size:12px;">· ${SIZE_LABELS[size]}</span></div>
             <div class="meta">${s.weight} · ${fmt(s.price)} c/u</div>
+            ${picks ? `<div class="meta pick-detail">🥨 ${picks.snacks.join(", ")}<br/>🧸 ${picks.toy}</div>` : ""}
             <div class="qty">
               <button data-act="minus" data-key="${key}">−</button>
               <span>${qty}</span>
@@ -1442,6 +1582,8 @@
       const sub = s.price * qty;
       total += sub;
       msg += `• ${qty}x ${p.name} — ${SIZE_LABELS[size]} (${s.weight}) — ${fmt(sub)}%0A`;
+      const picks = promoPicks.get(key);
+      if (picks) msg += `   · Snacks: ${picks.snacks.join(", ")}%0A   · Juguete: ${picks.toy}%0A`;
     });
     msg += `%0A*Total: ${fmt(total)}*%0A%0A¿Cómo coordinamos entrega y pago? ¡Gracias!`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
