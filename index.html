@@ -350,6 +350,17 @@
     border-radius: 30px 30px 30px 8px;
   }
 
+  /* corner ribbon (e.g. "Nueva receta") */
+  .card .ribbon {
+    position: absolute; top: 38px; right: -62px; z-index: 4;
+    width: 240px; padding: 7px 0; text-align: center;
+    background: linear-gradient(90deg, var(--qi-orange) 0%, #f8a853 100%); color: white;
+    font-family: 'Fraunces', serif; font-weight: 800; font-style: italic; font-size: 14px; letter-spacing: 0.5px;
+    transform: rotate(38deg);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+    pointer-events: none;
+  }
+
   .gallery {
     position: relative; aspect-ratio: 1/1;
     background: linear-gradient(135deg, #fafef5 0%, #f0f7ea 100%);
@@ -1150,11 +1161,11 @@
       ]
     },
     {
-      id: 15, num: "NOVEDAD",
+      id: 15, num: "NOVEDAD", ribbon: "¡Nueva receta!!!",
       name: "Pan de Molde con Trigo Sarraceno",
-      desc: "Pan de Trigo Sarraceno. Súper saludable, lleno de sabor y altamente nutritivo. El aliado perfecto para tus comidas diarias.",
-      ingredients: "Trigo sarraceno, harina de garbanzo, harina de arroz, almidón de mandioca, almidón de maíz, huevo, levadura y sal marina.",
-      sizes: { unico: { weight: "Pan entero (Por encargo)", price: 8000 } },
+      desc: "Pan de Trigo Sarraceno 100% vegano, apto SIBO y disbiosis intestinal. Súper saludable, lleno de sabor y altamente nutritivo. El aliado perfecto para tus comidas diarias.",
+      ingredients: "Trigo sarraceno, harina de sorgo, harina de lino, harina de arroz, almidón de mandioca, almidón de maíz, levadura y sal marina.",
+      sizes: { unico: { weight: "Pan entero (Por encargo)", price: 9000 } },
       images: [
         "Pan%20Trigo%20Sarraceno/1.pan.png",
         "Pan%20Trigo%20Sarraceno/2.Pan%20con%20trigo%20sarraceno%20sin%20gluten.png",
@@ -1378,6 +1389,7 @@
     const topSection = (p.isPromo || p.isBuilder)
       ? '<div class="promo-header' + (p.isBuilder ? ' builder-header' : '') + '"><span class="promo-label">' + (p.promoLabel || "PROMO") + '</span><span class="promo-solo">' + (p.promoTag || "⚽ Solo Junio") + '</span></div>'
       : '<div class="num' + (p.num.length > 2 ? ' num-wide' : '') + '">' + p.num + '</div>';
+    const ribbonHTML = p.ribbon ? '<div class="ribbon">' + p.ribbon + '</div>' : '';
     const midContent = p.isBuilder
       ? builderHTML(p)
       : p.isPromo
@@ -1385,6 +1397,7 @@
       : '<div class="ingredients"><b>Ingredientes:</b> ' + p.ingredients + '</div>' + sizeToggleHTML;
     card.innerHTML = `
       ${topSection}
+      ${ribbonHTML}
       <div class="gallery" data-index="0">
         ${p.images.map((src, i) => `<img src="${src}" alt="${p.name} - ${labels[i]||''}" class="${i===0?'active':''}" loading="lazy" />`).join("")}
         <button class="nav-arrow prev" aria-label="Anterior">‹</button>
