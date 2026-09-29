@@ -1161,9 +1161,9 @@
       ]
     },
     {
-      id: 15, num: "NOVEDAD", ribbon: "¡Nueva receta!!!",
+      id: 15, num: "¡Nueva receta!",
       name: "Pan de Molde con Trigo Sarraceno",
-      desc: "Pan de Trigo Sarraceno 100% vegano, apto SIBO y disbiosis intestinal. Súper saludable, lleno de sabor y altamente nutritivo. El aliado perfecto para tus comidas diarias.",
+      desc: "Pan de Trigo Sarraceno sin gluten, 100% vegano, apto SIBO y disbiosis intestinal. Súper saludable, lleno de sabor y altamente nutritivo. El aliado perfecto para tus comidas diarias.",
       ingredients: "Trigo sarraceno, harina de sorgo, harina de lino, harina de arroz, almidón de mandioca, almidón de maíz, levadura y sal marina.",
       sizes: { unico: { weight: "Pan entero (Por encargo)", price: 9000 } },
       images: [
@@ -1295,14 +1295,16 @@
     {
       id: 12, num: "11",
       name: "Mermeladas Artesanales",
-      desc: "¡Ahora las podés combinar como quieras! Pedí tu mermelada favorita de Lo Artesanal y combinala con el snack que más te guste.",
+      desc: "¡Ahora las podés combinar como quieras! Pedí tu mermelada favorita de Lo Artesanal y combinala con el snack que más te guste. <i>Disponibilidad sujeta a frutas de estación.</i>",
       ingredients: "Fruta, sin azúcar añadida.",
       sizes: {
         kiwi: { weight: "200 g", price: 3500 },
         manzana: { weight: "200 g", price: 3500 },
         pera: { weight: "200 g", price: 3500 },
         uva: { weight: "200 g", price: 3500 },
-        ciruela: { weight: "200 g", price: 3500 }
+        ciruela: { weight: "200 g", price: 3500 },
+        frutilla: { weight: "200 g", price: 3500 },
+        naranja: { weight: "200 g", price: 3500 }
       },
       images: ["Promo%20mundialera/ChatGPT%20Image%20Jul%2010%2C%202026%2C%2002_00_41%20PM.png"]
     },
@@ -1312,7 +1314,6 @@
       desc: "Conservas artesanales ideales para acompañar tus picadas y snacks favoritos.",
       ingredients: "Verduras seleccionadas y condimentos naturales.",
       sizes: {
-        morrones: { weight: "150 g", price: 3500 },
         berenjenasHungaras: { weight: "150 g", price: 3500 },
         aceitunas: { weight: "300 g", price: 4500 },
         berenjenasEscabeche: { weight: "200 g", price: 5000 }
@@ -1342,7 +1343,7 @@
   const WHATSAPP_NUMBER = "5491153796212";
   const fmt = (n) => "$" + n.toLocaleString("es-AR");
 
-  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo: "Promo del recreo", promo1: "Promo 1", promo2: "Promo 2", kiwi: "Kiwi", manzana: "Manzana", pera: "Pera", uva: "Uva", ciruela: "Ciruela", morrones: "Morrones", berenjenasHungaras: "Berenjenas Húngaras", aceitunas: "Aceitunas Condimentadas", berenjenasEscabeche: "Berenjenas en Escabeche" };
+  const SIZE_LABELS = { ind: "Individual", fam: "Familiar", combo: "Combo Argentina 🇦🇷", promo: "Promo del recreo", promo1: "Promo 1", promo2: "Promo 2", kiwi: "Kiwi", manzana: "Manzana", pera: "Pera", uva: "Uva", ciruela: "Ciruela", frutilla: "Frutilla", naranja: "Naranja", berenjenasHungaras: "Berenjenas Húngaras", aceitunas: "Aceitunas Condimentadas", berenjenasEscabeche: "Berenjenas en Escabeche" };
 
   // Armador de la promo del recreo: fichas para marcar snacks y juguete
   function builderHTML(p) {
